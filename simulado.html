@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulado — Ciências 6º ano (São José) · Vida na Terra</title>
+<style>
+  :root{--bg:#05131a;--panel:#0c2130;--panel2:#0a1a26;--line:#153447;--green:#2ee6c8;--green2:#0f9b86;
+    --blue:#38bdf8;--txt:#e8f6f4;--muted:#8fb4bd;--yellow:#ffd86b;--red:#ff5a5f;--grey:#7f97a1;}
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(900px 520px at 10% -8%,#0c1f3d55,transparent),radial-gradient(820px 480px at 96% 0%,#1a0a1a66,transparent),var(--bg);
+    color:var(--txt);font-family:'Segoe UI',system-ui,Arial,sans-serif;font-size:18px;line-height:1.6}
+  .wrap{max-width:860px;margin:0 auto;padding:14px 16px 90px}
+  .relbar{position:sticky;top:0;z-index:40;margin:0 -16px 14px;background:#05131aee;backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:8px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .relbar #relogioTxt{font-weight:800;color:var(--green);font-size:.95rem}
+  .relbar .espaco{flex:1}
+  .btn-terminar{background:#3a1620;color:#ffd7dd;border:1px solid #6d2333;border-radius:9px;padding:6px 12px;font-weight:700;font-size:.82rem;cursor:pointer}
+  /* header azul escuro + barra vermelha */
+  header{position:relative;border-radius:16px 16px 0 0;background:linear-gradient(120deg,#071a33,#0b2650);border:1px solid #143a6b;border-bottom:none;padding:22px 22px 18px}
+  header h1{margin:.1em 0;font-size:1.55rem} header p{margin:.2em 0;color:#cdddff}
+  .barra-vermelha{height:8px;background:linear-gradient(90deg,var(--red),#b3161b);border-radius:0 0 4px 4px;margin-bottom:16px;border:1px solid #6d2333;border-top:none}
+  .chip{display:inline-block;background:#0b2650;border:1px solid var(--red);color:#ffd7dd;font-size:.76rem;font-weight:700;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.5px}
+  .cabec{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:.92rem;color:var(--muted)}
+  .cabec b{color:var(--txt)}
+  .salvar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:16px}
+  .salvar .info{color:var(--muted);font-size:.85rem;flex:1 1 200px}
+  button{font-family:inherit;cursor:pointer;border:none;border-radius:10px;padding:9px 14px;font-size:.92rem;font-weight:700;color:#04231e;background:linear-gradient(90deg,var(--green),#7bf0dd)}
+  button.ghost{background:#12293a;color:var(--txt);border:1px solid var(--line)}
+  button.vermelho{background:linear-gradient(90deg,var(--red),#c81e23);color:#fff}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .q{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 18px 14px;margin-bottom:14px}
+  .q .num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;font-weight:800;margin-right:8px;background:linear-gradient(135deg,#0b2650,#143a6b);color:#cdddff}
+  .q .val{float:right;color:var(--muted);font-size:.8rem;font-weight:700}
+  .badge{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:999px;margin-left:6px;background:#2a1a3a;color:#d9b8ff;border:1px solid #5a3a7a}
+  .enun{font-weight:700;color:#eafffb;margin-bottom:10px}
+  .afirm{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0;font-weight:500}
+  .afirm div{margin:3px 0}
+  .alt{display:block;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin:7px 0;cursor:pointer;transition:.15s}
+  .alt:hover{border-color:var(--green2)}
+  .alt.sel{border-color:var(--green);background:#0a2c26}
+  .alt .letra{font-weight:800;color:var(--blue);margin-right:8px}
+  .alt.correta{border-color:var(--green);background:#0a2c26}
+  .alt.errada-sel{border-color:var(--red);background:#22121599}
+  .alt.cinza{opacity:.75}
+  .exp{display:none;font-size:.88rem;color:var(--muted);margin-top:6px;padding-left:6px;border-left:3px solid var(--line)}
+  .exp.on{display:block}.exp.ok{border-color:var(--green);color:#bff3ea}.exp.no{border-color:var(--grey)}
+  .barra-fixa{position:sticky;bottom:0;background:#05131af2;border-top:1px solid var(--line);margin:0 -16px;padding:12px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;z-index:30}
+  .barra-fixa .cont{color:var(--muted);font-size:.9rem;flex:1}
+  .codigo-box{background:var(--panel);border:1px solid var(--red);border-radius:16px;padding:20px;margin-bottom:16px;display:none}
+  .codigo-box.on{display:block}
+  .codigo-grande{font-size:1.8rem;font-weight:800;letter-spacing:2px;color:var(--red);margin:8px 0}
+  .codigo-box input{font-family:inherit;font-size:1rem;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--txt);width:150px;text-transform:uppercase}
+  .overlay{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:#030e13ee;backdrop-filter:blur(4px);padding:20px}
+  .overlay.on{display:flex}
+  .card-ov{max-width:460px;width:100%;background:var(--panel);border:1px solid var(--red);border-radius:18px;padding:28px 24px;text-align:center}
+  .bigbtn{font-size:1.15rem;padding:14px 26px;margin-top:12px}
+  #app.blur{filter:blur(7px);pointer-events:none;user-select:none}
+  .cont-grande{font-size:2.6rem;font-weight:800;color:var(--green);margin:10px 0}
+  .modal-bg{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;background:#030e13d0;padding:20px}
+  .modal-bg.on{display:flex}
+  .modal-card{max-width:430px;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .modal-acoes{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="overlay" id="ovStart"><div class="card-ov"><div style="font-size:2.6rem">⏱️📝</div>
+  <h2>Simulado valendo!</h2><p>São 27 questões, no estilo da prova. Trava sozinho após <b>45 minutos</b> para você descansar 5 min. O tempo fica registrado para os pais.</p>
+  <button class="bigbtn vermelho" onclick="RELOGIO.start()">▶ Começar o simulado</button></div></div>
+<div class="overlay" id="ovPause"><div class="card-ov"><div style="font-size:2.4rem">😴</div>
+  <h2>Simulado pausado</h2><p>Você ficou um tempo parada. Toque para continuar.</p><button class="bigbtn" onclick="RELOGIO.retomar()">▶ Continuar</button></div></div>
+<div class="overlay" id="ovBreak"><div class="card-ov"><div style="font-size:2.4rem">🧘💧</div>
+  <h2>Hora da pausa!</h2><p>45 minutos. Levante e beba água. Volta em:</p><div class="cont-grande" id="breakCont">5:00</div></div></div>
+<div class="modal-bg" id="modalBg"><div class="modal-card"><div id="modalTxt"></div><div class="modal-acoes" id="modalAcoes"></div></div></div>
+
+<div id="app" class="blur"><div class="wrap">
+  <div class="relbar"><span id="relogioTxt">⏱️ 0:00 (ativo 0:00)</span><span class="espaco"></span>
+    <button class="btn-terminar" onclick="terminarAgora()">⏹ Terminar agora</button></div>
+  <header><span class="chip">📝 Simulado · valendo</span>
+    <h1>Simulado — Ciências 6º ano</h1>
+    <p>Colégio São José · Rede Divina Providência</p></header>
+  <div class="barra-vermelha"></div>
+  <div class="cabec"><b>Avaliação de Ciências — 22/09</b> · Prof.ª Rejane Fernandes · 6º ano<br>27 questões (24 de múltipla escolha + 3 de números romanos). Cada questão vale (0,4). Escolha uma alternativa. No fim, gere seu <b>código SIM</b> para a mãe liberar o gabarito.</div>
+  <div class="salvar"><div class="info" id="saveinfo">Suas respostas são salvas sozinhas.</div>
+    <button class="ghost" onclick="exportar()">📥 Exportar</button>
+    <button class="ghost" onclick="document.getElementById('imp').click()">📤 Importar</button>
+    <input id="imp" type="file" accept="application/json" style="display:none" onchange="importar(event)">
+    <button class="ghost" onclick="zerar()">🗑️ Zerar tudo</button></div>
+
+  <div class="codigo-box" id="codigoBox"></div>
+  <div id="perguntas"></div>
+
+  <div class="barra-fixa"><span class="cont" id="contResp">0 de 27 respondidas</span>
+    <button class="vermelho" id="btnFinalizar" onclick="finalizar()" disabled>🏁 Finalizar e gerar código</button></div>
+</div></div>
+
+<script>
+/* ================= QUESTÕES (base: livro Ecos Ciências 6 — SM) ================= */
+const QUESTOES=[
+ {p:"A área da Biologia que classifica os seres vivos e cria os nomes científicos é a:",
+  alts:[{t:"Sistemática.",ok:true,exp:"É a área responsável por classificar e nomear os seres vivos."},
+   {t:"Genética.",ok:false,exp:"Genética estuda a hereditariedade, não a classificação."},
+   {t:"Ecologia.",ok:false,exp:"Ecologia estuda as relações dos seres com o ambiente."},
+   {t:"Anatomia.",ok:false,exp:"Anatomia estuda a estrutura do corpo."}]},
+ {p:"Duas onças que cruzam e têm filhotes férteis pertencem à mesma:",
+  alts:[{t:"espécie.",ok:true,exp:"Espécie biológica = cruzam e geram descendentes férteis."},
+   {t:"reino.",ok:false,exp:"Reino é um nível muito mais amplo."},
+   {t:"ordem.",ok:false,exp:"Ordem reúne várias famílias, é bem mais amplo."},
+   {t:"classe.",ok:false,exp:"Classe reúne várias ordens, é mais amplo."}]},
+ {p:"Qual é a forma <b>correta</b> de escrever o nome científico do ser humano?",
+  alts:[{t:"<i>Homo sapiens</i>",ok:true,exp:"Gênero com maiúscula, epíteto minúsculo, em itálico."},
+   {t:"<i>homo sapiens</i>",ok:false,exp:"O gênero (Homo) deve começar com maiúscula."},
+   {t:"<i>Homo Sapiens</i>",ok:false,exp:"O epíteto (sapiens) deve ser minúsculo."},
+   {t:"<i>HOMO SAPIENS</i>",ok:false,exp:"Não se escreve tudo em maiúsculas."}]},
+ {p:"No nome científico, a primeira palavra indica o:",
+  alts:[{t:"gênero (e começa com letra maiúscula).",ok:true,exp:"A 1ª palavra é o gênero, com maiúscula."},
+   {t:"epíteto específico (com maiúscula).",ok:false,exp:"O epíteto é a 2ª palavra e é minúsculo."},
+   {t:"reino do ser vivo.",ok:false,exp:"O nome não indica o reino."},
+   {t:"nome popular do animal.",ok:false,exp:"O nome científico não é o popular."}]},
+ {p:"Qual a ordem correta dos níveis, do maior para o menor?",
+  alts:[{t:"Reino, Filo, Classe, Ordem, Família, Gênero, Espécie.",ok:true,exp:"Sequência de Lineu."},
+   {t:"Reino, Classe, Filo, Ordem, Gênero, Família, Espécie.",ok:false,exp:"Filo/Classe e Família/Gênero estão trocados."},
+   {t:"Espécie, Gênero, Família, Ordem, Classe, Filo, Reino.",ok:false,exp:"Está do menor para o maior."},
+   {t:"Reino, Ordem, Classe, Filo, Família, Gênero, Espécie.",ok:false,exp:"O meio está fora de ordem."}]},
+ {p:"A <b>família</b> é um conjunto de:",
+  alts:[{t:"gêneros.",ok:true,exp:"A família reúne vários gêneros (ex.: felídeos: Panthera, Felis, Puma)."},
+   {t:"espécies apenas.",ok:false,exp:"Quem reúne espécies diretamente é o gênero."},
+   {t:"reinos.",ok:false,exp:"Reino é o maior nível, não faz parte da família."},
+   {t:"filos.",ok:false,exp:"Filo é bem mais amplo que a família."}]},
+ {p:"O sistema de classificação de Whittaker (1969) tem quantos reinos e se baseia em quê?",
+  alts:[{t:"Cinco reinos, baseado na organização celular e no modo de obter alimento.",ok:true,exp:"São 5 reinos, por esses dois critérios."},
+   {t:"Três reinos, baseado só no tamanho.",ok:false,exp:"São cinco, e o tamanho não é o critério."},
+   {t:"Sete reinos, um para cada nível.",ok:false,exp:"Confunde reino com níveis de classificação."},
+   {t:"Dois reinos, animais e plantas.",ok:false,exp:"Esse era o sistema antigo, de Aristóteles."}]},
+ {p:"Cogumelos e bolores fazem parte de qual reino?",
+  alts:[{t:"Fungi.",ok:true,exp:"Fungi reúne os fungos: cogumelos, bolores e leveduras."},
+   {t:"Plantae.",ok:false,exp:"Fungos não são plantas (são heterótrofos)."},
+   {t:"Monera.",ok:false,exp:"Monera é das bactérias."},
+   {t:"Protista.",ok:false,exp:"Protista é de algas e protozoários."}]},
+ {p:"O reino Animalia reúne seres:",
+  alts:[{t:"eucariontes, pluricelulares e heterótrofos.",ok:true,exp:"São as características dos animais."},
+   {t:"procariontes e unicelulares.",ok:false,exp:"Isso descreve as bactérias (Monera)."},
+   {t:"eucariontes e autótrofos.",ok:false,exp:"Autótrofos são as plantas (Plantae)."},
+   {t:"sem núcleo e sempre parasitas.",ok:false,exp:"Animais têm núcleo e nem sempre são parasitas."}]},
+ {p:"No sistema de três domínios, o antigo reino Monera foi dividido em:",
+  alts:[{t:"Bacteria e Archaea.",ok:true,exp:"Monera deu origem a esses dois domínios."},
+   {t:"Eukarya e Protista.",ok:false,exp:"Eukarya reúne os eucariontes; Protista é reino."},
+   {t:"Fungi e Plantae.",ok:false,exp:"Esses são reinos de eucariontes."},
+   {t:"Animalia e Eukarya.",ok:false,exp:"Não têm relação com a divisão da Monera."}]},
+ {p:"Qual grupo de plantas NÃO tem vasos condutores?",
+  alts:[{t:"Briófitas.",ok:true,exp:"Briófitas são as plantas mais simples, sem vasos condutores."},
+   {t:"Angiospermas.",ok:false,exp:"Angiospermas têm vasos, flores, frutos e sementes."},
+   {t:"Gimnospermas.",ok:false,exp:"Gimnospermas têm vasos e sementes."},
+   {t:"Pteridófitas.",ok:false,exp:"Pteridófitas têm vasos, mas não têm sementes."}]},
+ {p:"Uma planta com sementes, mas <b>sem</b> flores e <b>sem</b> frutos, é uma:",
+  alts:[{t:"gimnosperma.",ok:true,exp:"Gimnospermas têm sementes, mas não formam flores nem frutos."},
+   {t:"angiosperma.",ok:false,exp:"Angiospermas têm flores e frutos."},
+   {t:"briófita.",ok:false,exp:"Briófitas nem sementes têm."},
+   {t:"pteridófita.",ok:false,exp:"Pteridófitas não têm sementes."}]},
+ {p:"Qual destes NÃO é um ambiente costeiro?",
+  alts:[{t:"Deserto.",ok:true,exp:"Deserto é ambiente terrestre, não costeiro."},
+   {t:"Manguezal.",ok:false,exp:"Manguezal é ambiente costeiro."},
+   {t:"Restinga.",ok:false,exp:"Restinga é ambiente costeiro."},
+   {t:"Costão rochoso.",ok:false,exp:"Costão rochoso é ambiente costeiro."}]},
+ {p:"Por que quase não crescem plantas grandes na areia da praia?",
+  alts:[{t:"A areia é pobre em nutrientes e há alta salinidade.",ok:true,exp:"Esses fatores dificultam a fixação e o crescimento."},
+   {t:"Falta luz do sol na praia.",ok:false,exp:"Sol não falta na praia."},
+   {t:"O solo é muito rico em oxigênio.",ok:false,exp:"Não é isso que impede as plantas."},
+   {t:"Faz frio demais na areia.",ok:false,exp:"A areia costuma ficar quente, não fria."}]},
+ {p:"Bromélias e orquídeas que vivem sobre outras plantas na restinga são chamadas de:",
+  alts:[{t:"epífitas.",ok:true,exp:"Epífitas vivem sobre outras plantas."},
+   {t:"parasitas.",ok:false,exp:"Epífitas não tiram alimento do hospedeiro como parasitas."},
+   {t:"rasteiras.",ok:false,exp:"Rasteiras crescem junto ao chão."},
+   {t:"aquáticas.",ok:false,exp:"Elas não vivem dentro da água."}]},
+ {p:"No costão rochoso, a zona intermediária é aquela que:",
+  alts:[{t:"fica coberta e descoberta pela maré, com ação mais intensa das ondas.",ok:true,exp:"É a faixa que muda com a maré."},
+   {t:"fica sempre submersa.",ok:false,exp:"Essa é a zona inferior."},
+   {t:"quase nunca fica debaixo d'água.",ok:false,exp:"Essa é a zona superior."},
+   {t:"fica no fundo do mar aberto.",ok:false,exp:"Isso é a zona bentônica, não o costão."}]},
+ {p:"O solo do manguezal é:",
+  alts:[{t:"lodoso, rico em nutrientes, mas pobre em gás oxigênio.",ok:true,exp:"Por isso as plantas do mangue têm adaptações."},
+   {t:"arenoso e rico em oxigênio.",ok:false,exp:"Areia rica em oxigênio descreve a praia, não o mangue."},
+   {t:"seco e sem nutrientes.",ok:false,exp:"O solo do mangue é lodoso e rico em nutrientes."},
+   {t:"rochoso e batido pelas ondas.",ok:false,exp:"Isso descreve o costão rochoso."}]},
+ {p:"Os pneumatóforos das plantas do manguezal servem para:",
+  alts:[{t:"ajudar a planta a respirar em um solo pobre em oxigênio.",ok:true,exp:"São estruturas que sobem do lodo para respirar."},
+   {t:"capturar animais para se alimentar.",ok:false,exp:"Plantas do mangue não capturam animais."},
+   {t:"produzir flores coloridas.",ok:false,exp:"Não é a função dos pneumatóforos."},
+   {t:"filtrar o sal da água.",ok:false,exp:"Sua função principal descrita é a respiração."}]},
+ {p:"Na zona pelágica, a luz do sol entra até cerca de 200 m. Nessa parte iluminada vive o:",
+  alts:[{t:"fitoplâncton, que faz fotossíntese.",ok:true,exp:"O fitoplâncton precisa de luz para a fotossíntese."},
+   {t:"bentos do fundo escuro.",ok:false,exp:"O bentos vive no fundo, muitas vezes sem luz."},
+   {t:"solo lodoso do mangue.",ok:false,exp:"Isso é do manguezal, não do mar aberto."},
+   {t:"lençol freático.",ok:false,exp:"Lençol freático é água do subsolo, não do mar."}]},
+ {p:"O que é o fitoplâncton?",
+  alts:[{t:"Algas microscópicas que boiam e fazem fotossíntese.",ok:true,exp:"Fitoplâncton = algas microscópicas do plâncton."},
+   {t:"Peixes grandes que nadam rápido.",ok:false,exp:"Peixes que nadam ativamente são nécton."},
+   {t:"Animais fixos no fundo do mar.",ok:false,exp:"Fixos no fundo são bentos."},
+   {t:"Pequenos crustáceos e larvas.",ok:false,exp:"Esse é o zooplâncton, não o fitoplâncton."}]},
+ {p:"O lençol freático e os aquíferos são abastecidos principalmente pela:",
+  alts:[{t:"absorção e filtragem da água da chuva pelo solo.",ok:true,exp:"O solo absorve e filtra a chuva, abastecendo as águas do subsolo."},
+   {t:"água salgada do mar.",ok:false,exp:"A água do subsolo é doce, vinda da chuva."},
+   {t:"decomposição dos animais.",ok:false,exp:"A decomposição não é o que abastece os aquíferos."},
+   {t:"fotossíntese das plantas.",ok:false,exp:"Fotossíntese produz alimento, não abastece o lençol."}]},
+ {p:"O que é erosão e como as raízes das plantas ajudam?",
+  alts:[{t:"É o desgaste do solo pelo vento e pela água; as raízes seguram as partículas e protegem o solo.",ok:true,exp:"As raízes agregam o solo, reduzindo a erosão."},
+   {t:"É o excesso de nutrientes; as raízes tiram o excesso.",ok:false,exp:"Erosão é desgaste, não excesso de nutrientes."},
+   {t:"É a chuva ácida; as raízes neutralizam o ácido.",ok:false,exp:"Erosão não é chuva ácida."},
+   {t:"É a falta de água; as raízes criam água.",ok:false,exp:"Plantas não criam água."}]},
+ {p:"Os rizóbios, encontrados nos nódulos das raízes de leguminosas, são:",
+  alts:[{t:"bactérias fixadoras de nitrogênio, que pegam o gás nitrogênio do ar.",ok:true,exp:"Transformam o nitrogênio do ar em substâncias úteis à planta."},
+   {t:"fungos que apodrecem a raiz.",ok:false,exp:"Rizóbios são bactérias benéficas, não fungos causadores de apodrecimento."},
+   {t:"vírus que causam doenças na planta.",ok:false,exp:"Não são vírus; a relação é benéfica."},
+   {t:"pequenos animais que comem a raiz.",ok:false,exp:"São bactérias, não animais."}]},
+ {p:"Qual conjunto descreve características comuns a <b>todos</b> os animais?",
+  alts:[{t:"Eucariontes, pluricelulares, heterótrofos e com movimento em ao menos uma fase da vida.",ok:true,exp:"São as características gerais dos animais."},
+   {t:"Procariontes, unicelulares e autótrofos.",ok:false,exp:"Isso descreve bactérias, não animais."},
+   {t:"Autótrofos que fazem fotossíntese.",ok:false,exp:"Animais são heterótrofos, não fazem fotossíntese."},
+   {t:"Sempre com esqueleto e coluna vertebral.",ok:false,exp:"A maioria (invertebrados) não tem coluna vertebral."}]},
+ {p:"Analise as afirmativas sobre os <b>invertebrados</b>:", romano:[
+   "I. Não têm crânio nem vértebras.",
+   "II. São a maioria das espécies de animais conhecidas.",
+   "III. Formam um grupo oficial da classificação biológica.",
+   "IV. Os artrópodes são o maior grupo dentre eles."],
+  alts:[{t:"Estão corretas apenas I, II e IV.",ok:true,exp:"A III é falsa: 'invertebrado' é um termo informal, não um grupo oficial."},
+   {t:"Estão corretas apenas I e III.",ok:false,exp:"A III é falsa e a II e IV são verdadeiras."},
+   {t:"Estão corretas apenas II e III.",ok:false,exp:"A III é falsa; I e IV são verdadeiras."},
+   {t:"Todas estão corretas (I, II, III e IV).",ok:false,exp:"A III é falsa."}]},
+ {p:"Analise as afirmativas sobre os <b>grupos de invertebrados</b>:", romano:[
+   "I. Os poríferos (esponjas) filtram a água e os adultos ficam fixos.",
+   "II. Os cnidários têm cnidócitos, células urticantes.",
+   "III. Os platelmintos têm corpo cilíndrico e alongado.",
+   "IV. A lombriga é um nematódeo."],
+  alts:[{t:"Estão corretas apenas I, II e IV.",ok:true,exp:"A III é falsa: platelminto tem corpo achatado; cilíndrico é o nematódeo."},
+   {t:"Estão corretas apenas I e III.",ok:false,exp:"A III é falsa."},
+   {t:"Estão corretas apenas III e IV.",ok:false,exp:"A III é falsa; I e II são verdadeiras."},
+   {t:"Todas estão corretas (I, II, III e IV).",ok:false,exp:"A III é falsa."}]},
+ {p:"Analise as afirmativas sobre <b>água e solo</b>:", romano:[
+   "I. No manguezal, a água é salobra (mistura de doce com salgada).",
+   "II. No costão rochoso, a zona inferior fica sempre submersa.",
+   "III. O plâncton nada ativamente contra as correntes.",
+   "IV. A maioria dos seres vivos do solo são microrganismos."],
+  alts:[{t:"Estão corretas apenas I, II e IV.",ok:true,exp:"A III é falsa: o plâncton se desloca passivamente, não vence as correntes."},
+   {t:"Estão corretas apenas I e III.",ok:false,exp:"A III é falsa."},
+   {t:"Estão corretas apenas II e III.",ok:false,exp:"A III é falsa; I e IV são verdadeiras."},
+   {t:"Todas estão corretas (I, II, III e IV).",ok:false,exp:"A III é falsa."}]}
+];
+
+/* ================= SALVAMENTO ================= */
+const KEY='ciencias6_sj_simulado_v1';
+let estado={resp:{},ordem:{},finalizado:false,codigo:'',acertos:0,desbloq:false,ts:null};
+let mem={};
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return mem[k]||null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}}
+function lsDel(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
+function carregar(){try{const s=lsGet(KEY);if(s)estado=JSON.parse(s);}catch(e){}}
+function salvar(){estado.ts=new Date().toISOString();lsSet(KEY,JSON.stringify(estado));pintarInfo();}
+function pintarInfo(){const el=document.getElementById('saveinfo');
+  if(estado.ts){const d=new Date(estado.ts);el.innerHTML='💾 Salvo: <b>'+d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</b>';}
+  else el.textContent='Suas respostas são salvas sozinhas.';}
+function modalConfirm(html,onSim,txtSim,txtNao){document.getElementById('modalTxt').innerHTML=html;const ac=document.getElementById('modalAcoes');ac.innerHTML='';
+  const b1=document.createElement('button');b1.className='ghost';b1.textContent=txtNao||'Cancelar';b1.onclick=()=>document.getElementById('modalBg').classList.remove('on');
+  const b2=document.createElement('button');b2.textContent=txtSim||'Confirmar';b2.onclick=()=>{document.getElementById('modalBg').classList.remove('on');onSim&&onSim();};
+  ac.appendChild(b1);ac.appendChild(b2);document.getElementById('modalBg').classList.add('on');}
+function modalInfo(html){document.getElementById('modalTxt').innerHTML=html;const ac=document.getElementById('modalAcoes');ac.innerHTML='';
+  const b=document.createElement('button');b.textContent='Ok';b.onclick=()=>document.getElementById('modalBg').classList.remove('on');ac.appendChild(b);document.getElementById('modalBg').classList.add('on');}
+const RELOGIO=(function(){
+  const SESSAO=45*60,PAUSA=5*60,IDLE=3*60;let t={total:0,ativo:0,sessoes:[]};
+  let sessSec=0,lastAct=Date.now(),running=false,onBreak=false,idlePaused=false,tickId=null,cur=null,breakLeft=0;
+  function loadT(){try{const s=lsGet(KEY+'_tempo');if(s)t=JSON.parse(s);}catch(e){}if(!t.sessoes)t.sessoes=[];}
+  function saveT(){lsSet(KEY+'_tempo',JSON.stringify(t));}
+  function fmt(s){const m=Math.floor(s/60),ss=s%60;return m+':'+(ss<10?'0':'')+ss;}
+  function paint(){const el=document.getElementById('relogioTxt');if(el)el.textContent='⏱️ '+fmt(t.total)+' (ativo '+fmt(t.ativo)+')';}
+  function bump(){lastAct=Date.now();if(idlePaused){idlePaused=false;document.getElementById('ovPause').classList.remove('on');}}
+  function tick(){if(!running||onBreak)return;const idleFor=(Date.now()-lastAct)/1000;
+    if(idleFor>=IDLE){if(!idlePaused){idlePaused=true;document.getElementById('ovPause').classList.add('on');}return;}
+    t.total++;sessSec++;if(idleFor<20)t.ativo++;paint();if(t.total%5===0)saveT();if(sessSec>=SESSAO)startBreak();}
+  function startBreak(){onBreak=true;breakLeft=PAUSA;document.getElementById('ovBreak').classList.add('on');const c=document.getElementById('breakCont');c.textContent=fmt(breakLeft);
+    const iv=setInterval(()=>{breakLeft--;c.textContent=fmt(breakLeft>0?breakLeft:0);if(breakLeft<=0){clearInterval(iv);onBreak=false;sessSec=0;lastAct=Date.now();document.getElementById('ovBreak').classList.remove('on');}},1000);}
+  return{init(){loadT();paint();['input','click','keydown','scroll','touchstart'].forEach(ev=>document.addEventListener(ev,bump,{passive:true}));},
+    start(){running=true;cur={ini:new Date().toISOString()};lastAct=Date.now();document.getElementById('ovStart').classList.remove('on');document.getElementById('app').classList.remove('blur');if(!tickId)tickId=setInterval(tick,1000);},
+    retomar(){bump();},terminar(){if(cur){cur.fim=new Date().toISOString();t.sessoes.push(cur);cur=null;}running=false;saveT();},
+    dados(){return t;},zeraTempo(){t={total:0,ativo:0,sessoes:[]};lsDel(KEY+'_tempo');paint();}};
+})();
+function terminarAgora(){modalConfirm('<p><b>Terminar agora?</b></p><p>Isso encerra a tentativa e gera o código com os acertos do que você respondeu (mesmo com questões em branco).</p>',
+  ()=>{RELOGIO.terminar();finalizar(true);},'Sim, terminar','Continuar');}
+
+function embaralha(n,seed){let idx=[...Array(n).keys()];let s=seed;
+  for(let i=n-1;i>0;i--){s=(s*9301+49297)%233280;const j=Math.floor(s/233280*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}return idx;}
+function ordemDe(i){if(!estado.ordem[i]){estado.ordem[i]=embaralha(QUESTOES[i].alts.length,(i+1)*6151);}return estado.ordem[i];}
+
+const LETRAS=['A','B','C','D','E'];
+function render(){
+  const cont=document.getElementById('perguntas');cont.innerHTML='';
+  QUESTOES.forEach((q,i)=>{
+    const ord=ordemDe(i);
+    const div=document.createElement('div');div.className='q';div.id='q'+i;
+    let alts='';
+    ord.forEach((oi,pos)=>{const a=q.alts[oi];const sel=estado.resp[i]===oi;
+      alts+=`<label class="alt${sel?' sel':''}" id="alt${i}_${pos}" onclick="escolher(${i},${oi},${pos})">
+        <span class="letra">${LETRAS[pos]})</span>${a.t}<div class="exp" id="exp${i}_${pos}"></div></label>`;});
+    let romano='';
+    if(q.romano){romano='<div class="afirm">'+q.romano.map(x=>'<div>'+x+'</div>').join('')+'</div>';}
+    const badge=q.romano?'<span class="badge">Números romanos</span>':'';
+    div.innerHTML=`<div class="enun"><span class="val">(0,4)</span><span class="num">${i+1}</span>${q.p}${badge}</div>${romano}${alts}`;
+    cont.appendChild(div);
+  });
+  atualizarContagem();pintarInfo();
+  if(estado.finalizado)mostrarCodigoBox();
+  if(estado.desbloq)revelarGabarito();
+}
+function escolher(i,oi,pos){if(estado.finalizado)return;estado.resp[i]=oi;const ord=ordemDe(i);
+  ord.forEach((_,p)=>{const el=document.getElementById('alt'+i+'_'+p);if(el)el.classList.remove('sel');});
+  const el=document.getElementById('alt'+i+'_'+pos);if(el)el.classList.add('sel');atualizarContagem();salvar();}
+function atualizarContagem(){const n=Object.keys(estado.resp).length;
+  document.getElementById('contResp').textContent=n+' de '+QUESTOES.length+' respondidas';
+  const b=document.getElementById('btnFinalizar');if(b&&!estado.finalizado)b.disabled=(n<QUESTOES.length);}
+function contaAcertos(){let a=0;QUESTOES.forEach((q,i)=>{const oi=estado.resp[i];if(oi!=null&&q.alts[oi]&&q.alts[oi].ok)a++;});return a;}
+function gerarCodigo(pref,ac){const L='ABCDEFGHJKLMNPQRSTUVWXYZ';const y=L[Math.floor(Math.random()*L.length)]+L[Math.floor(Math.random()*L.length)];return pref+'-'+String(ac).padStart(2,'0')+'-'+y;}
+function finalizar(forcado){if(!forcado){const n=Object.keys(estado.resp).length;if(n<QUESTOES.length)return;}
+  estado.finalizado=true;estado.acertos=contaAcertos();if(!estado.codigo)estado.codigo=gerarCodigo('SIM',estado.acertos);salvar();
+  document.getElementById('btnFinalizar').disabled=true;mostrarCodigoBox();document.getElementById('codigoBox').scrollIntoView({behavior:'smooth'});}
+function mostrarCodigoBox(){const box=document.getElementById('codigoBox');box.classList.add('on');
+  box.innerHTML=`<h2 style="margin-top:0">🏁 Simulado finalizado!</h2>
+    <p>Mostre este código para a sua mãe. Ele guarda quantas você acertou (de ${QUESTOES.length}).</p>
+    <div class="codigo-grande">${estado.codigo}</div>
+    <p style="color:var(--muted);font-size:.9rem">Para liberar o <b>gabarito comentado</b>, digite o código:</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <input id="codeInput" placeholder="SIM-..." value="${estado.desbloq?estado.codigo:''}">
+      <button class="vermelho" onclick="conferirCodigo()">🔓 Liberar gabarito</button></div>
+    <div id="codeMsg" style="margin-top:8px;font-size:.9rem;color:var(--muted)"></div>`;
+  if(estado.desbloq){const m=document.getElementById('codeMsg');if(m)m.innerHTML='Gabarito liberado. Acertos: <b>'+estado.acertos+' de '+QUESTOES.length+'</b>. ✅';}}
+function conferirCodigo(){const v=(document.getElementById('codeInput').value||'').trim().toUpperCase();const msg=document.getElementById('codeMsg');
+  if(v===estado.codigo){estado.desbloq=true;salvar();revelarGabarito();msg.innerHTML='Gabarito liberado. Acertos: <b>'+estado.acertos+' de '+QUESTOES.length+'</b>. ✅';}
+  else msg.textContent='Código incorreto. Confira as letras e números.';}
+function revelarGabarito(){QUESTOES.forEach((q,i)=>{const ord=ordemDe(i);
+  ord.forEach((oi,pos)=>{const a=q.alts[oi];const el=document.getElementById('alt'+i+'_'+pos);const exp=document.getElementById('exp'+i+'_'+pos);if(!el)return;
+    el.classList.add('cinza');
+    if(a.ok){el.classList.remove('cinza');el.classList.add('correta');if(exp){exp.className='exp on ok';exp.innerHTML='✔ Correta — '+a.exp;}}
+    else{if(estado.resp[i]===oi)el.classList.add('errada-sel');if(exp){exp.className='exp on no';exp.innerHTML='✗ '+a.exp;}}});});}
+function exportar(){const out={simulado:estado,tempo:RELOGIO.dados()};const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='progresso-simulado-ciencias6.json';a.click();}
+function importar(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const o=JSON.parse(r.result);if(o.simulado)estado=o.simulado;else estado=o;if(o.tempo)lsSet(KEY+'_tempo',JSON.stringify(o.tempo));salvar();render();modalInfo('<p>✅ Importado!</p>');}catch(e){modalInfo('<p>Arquivo inválido.</p>');}};
+  r.readAsText(f);}
+function zerar(){modalConfirm('<p><b>Zerar tudo?</b></p><p>Apaga respostas, código e tempo, para outra criança usar.</p>',
+  ()=>{estado={resp:{},ordem:{},finalizado:false,codigo:'',acertos:0,desbloq:false,ts:null};lsDel(KEY);RELOGIO.zeraTempo();document.getElementById('codigoBox').classList.remove('on');render();modalInfo('<p>🗑️ Zerado!</p>');},'Sim, zerar','Cancelar');}
+carregar();render();RELOGIO.init();document.getElementById('ovStart').classList.add('on');
+</script>
+</body>
+</html>
