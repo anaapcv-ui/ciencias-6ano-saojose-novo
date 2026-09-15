@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumo — Ciências 6º ano (São José) · Vida na Terra</title>
+<style>
+  :root{--bg:#05131a;--panel:#0c2130;--panel2:#0a1a26;--line:#153447;--green:#2ee6c8;--green2:#0f9b86;
+    --lime:#9ef01a;--blue:#38bdf8;--txt:#e8f6f4;--muted:#8fb4bd;--yellow:#ffd86b;--red:#ff6b6b;--purple:#b98cff;}
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(900px 520px at 10% -8%,#0c3a4d55,transparent),radial-gradient(820px 480px at 96% 0%,#0a4a3f66,transparent),var(--bg);
+    color:var(--txt);font-family:'Segoe UI',system-ui,Arial,sans-serif;font-size:19px;line-height:1.65}
+  .wrap{max-width:920px;margin:0 auto;padding:14px 16px 90px}
+  .relbar{position:sticky;top:0;z-index:40;margin:0 -16px 14px;background:#05131aee;backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:8px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .relbar #relogioTxt{font-weight:800;color:var(--green);font-size:.95rem}
+  .relbar .espaco{flex:1}
+  .btn-terminar{background:#3a1620;color:#ffd7dd;border:1px solid #6d2333;border-radius:9px;padding:6px 12px;font-weight:700;font-size:.82rem;cursor:pointer}
+  header{position:relative;overflow:hidden;border-radius:18px;background:linear-gradient(125deg,#3a1a5e,#5a2a8a 55%,#7a3fb0);
+    border:1px solid #9a5fd0;padding:24px 22px;margin-bottom:16px;box-shadow:0 10px 30px #10002166}
+  header h1{margin:.1em 0;font-size:1.6rem} header p{margin:.2em 0;color:#f0e6ff}
+  .chip{display:inline-block;background:#3a1a5e;border:1px solid var(--purple);color:#f0e6ff;font-size:.76rem;font-weight:700;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.5px}
+  .salvar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:16px}
+  .salvar .info{color:var(--muted);font-size:.85rem;flex:1 1 200px}
+  button{font-family:inherit;cursor:pointer;border:none;border-radius:10px;padding:9px 14px;font-size:.92rem;font-weight:700;color:#04231e;background:linear-gradient(90deg,var(--green),#7bf0dd)}
+  button.ghost{background:#12293a;color:var(--txt);border:1px solid var(--line)}
+  h2.sec{margin:26px 0 12px;font-size:1.35rem;color:#eafffb;border-left:5px solid var(--green);padding-left:12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:12px 0}
+  .card b{color:var(--green)}
+  .card .azul{color:var(--blue);font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:12px 0}
+  .flip{background:transparent;perspective:1000px;min-height:150px;cursor:pointer}
+  .flip-in{position:relative;width:100%;height:100%;min-height:150px;transition:transform .5s;transform-style:preserve-3d}
+  .flip.vira .flip-in{transform:rotateY(180deg)}
+  .flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;padding:16px;display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line)}
+  .flip-front{background:linear-gradient(135deg,#0c2130,#12314a)}
+  .flip-front .t{font-weight:800;color:var(--green);font-size:1.1rem}
+  .flip-front .h{color:var(--muted);font-size:.82rem;margin-top:8px}
+  .flip-back{background:linear-gradient(135deg,#0a2c26,#0f3b33);transform:rotateY(180deg);font-size:.95rem}
+  .postit{background:#fff6c2;color:#3a2f00;border-radius:6px;padding:14px 16px;margin:12px 0;box-shadow:3px 4px 12px #0006;transform:rotate(-1deg);font-weight:600}
+  .postit b{color:#7a5c00}
+  .pegadinha{background:#2a1115;border:1px solid #6d2333;border-radius:12px;padding:14px 16px;margin:12px 0}
+  .pegadinha b{color:var(--red)}
+  .glossario{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:8px 18px;margin:12px 0}
+  .glossario dt{color:var(--green);font-weight:800;margin-top:12px}
+  .glossario dd{margin:2px 0 8px;color:var(--txt)}
+  table.mini{width:100%;border-collapse:collapse;font-size:.95rem;margin:8px 0}
+  table.mini td,table.mini th{border:1px solid var(--line);padding:8px 10px;text-align:left}
+  table.mini th{background:#0f2a3a;color:var(--green)}
+  .overlay{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:#030e13ee;backdrop-filter:blur(4px);padding:20px}
+  .overlay.on{display:flex}
+  .card-ov{max-width:460px;width:100%;background:var(--panel);border:1px solid var(--green2);border-radius:18px;padding:28px 24px;text-align:center}
+  .bigbtn{font-size:1.15rem;padding:14px 26px;margin-top:12px}
+  #app.blur{filter:blur(7px);pointer-events:none;user-select:none}
+  .cont-grande{font-size:2.6rem;font-weight:800;color:var(--green);margin:10px 0}
+  .modal-bg{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;background:#030e13d0;padding:20px}
+  .modal-bg.on{display:flex}
+  .modal-card{max-width:430px;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .modal-acoes{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="overlay" id="ovStart"><div class="card-ov"><div style="font-size:2.6rem">⏱️🗺️</div>
+  <h2>Bora revisar tudo?</h2><p>Este resumo trava sozinho depois de <b>45 minutos</b> para você descansar 5 min. O tempo fica registrado para os pais.</p>
+  <button class="bigbtn" onclick="RELOGIO.start()">▶ Começar a revisar</button></div></div>
+<div class="overlay" id="ovPause"><div class="card-ov"><div style="font-size:2.4rem">😴</div>
+  <h2>Revisão pausada</h2><p>Você ficou um tempo parada. Toque para continuar.</p><button class="bigbtn" onclick="RELOGIO.retomar()">▶ Continuar</button></div></div>
+<div class="overlay" id="ovBreak"><div class="card-ov"><div style="font-size:2.4rem">🧘💧</div>
+  <h2>Hora da pausa!</h2><p>45 minutos de estudo. Levante e beba água. Volta em:</p><div class="cont-grande" id="breakCont">5:00</div></div></div>
+<div class="modal-bg" id="modalBg"><div class="modal-card"><div id="modalTxt"></div><div class="modal-acoes" id="modalAcoes"></div></div></div>
+
+<div id="app" class="blur"><div class="wrap">
+  <div class="relbar"><span id="relogioTxt">⏱️ 0:00 (ativo 0:00)</span><span class="espaco"></span>
+    <button class="btn-terminar" onclick="terminarAgora()">⏹ Terminar agora</button></div>
+  <header><span class="chip">🗺️ Expedição BioLab · Resumo</span>
+    <h1>Resumo — Ciências 6º ano · Colégio São José</h1>
+    <p><b>Avaliação de 22/09 · Prof.ª Rejane Fernandes</b></p>
+    <p style="font-size:.92rem;color:#f0e6ff">Toque nas <b>cartas</b> para virar e ver a resposta. Preste atenção nos <b>post-its amarelos</b> (dicas) e nos <b>alertas vermelhos</b> (pegadinhas). 🔬</p></header>
+  <div class="salvar"><div class="info" id="saveinfo">Sua leitura é registrada para o relatório dos pais.</div>
+    <button class="ghost" onclick="exportar()">📥 Exportar</button>
+    <button class="ghost" onclick="document.getElementById('imp').click()">📤 Importar</button>
+    <input id="imp" type="file" accept="application/json" style="display:none" onchange="importar(event)">
+    <button class="ghost" onclick="zerar()">🗑️ Zerar tudo</button></div>
+
+  <!-- 1. CLASSIFICAÇÃO -->
+  <h2 class="sec">🧬 1. Classificação dos seres vivos</h2>
+  <div class="card"><b>Sistemática</b> é a área da Biologia que classifica os seres vivos e cria os <b>nomes científicos</b>. Para agrupar, compara <span class="azul">semelhanças</span>: estrutura do corpo (células, tecidos, órgãos), composição química e material genético.</div>
+  <div class="card"><b>Espécie biológica</b> = grupo de seres que cruzam entre si e geram <b>descendentes férteis</b>. Ex.: todos os cães = mesma espécie.</div>
+  <div class="grid">
+    <div class="flip" onclick="this.classList.toggle('vira')"><div class="flip-in">
+      <div class="flip-face flip-front"><div class="t">Nome científico</div><div class="h">Como se escreve? (toque)</div></div>
+      <div class="flip-face flip-back">Em <b>latim</b>, <i>itálico</i> ou sublinhado. Duas palavras (sistema binomial): <b>Gênero</b> (maiúscula) + <b>epíteto</b> (minúsculo). Ex.: <i>Panthera onca</i>. Criador: <b>Lineu</b>.</div></div></div>
+    <div class="flip" onclick="this.classList.toggle('vira')"><div class="flip-in">
+      <div class="flip-face flip-front"><div class="t">Níveis de Lineu</div><div class="h">Do maior ao menor? (toque)</div></div>
+      <div class="flip-face flip-back"><b>R</b>eino → <b>F</b>ilo → <b>C</b>lasse → <b>O</b>rdem → <b>F</b>amília → <b>G</b>ênero → <b>E</b>spécie.</div></div></div>
+    <div class="flip" onclick="this.classList.toggle('vira')"><div class="flip-in">
+      <div class="flip-face flip-front"><div class="t">5 Reinos (Whittaker)</div><div class="h">Quais são? (toque)</div></div>
+      <div class="flip-face flip-back"><b>Monera</b> (bactérias, procariontes), <b>Protista</b> (algas, protozoários), <b>Fungi</b> (cogumelos, bolores), <b>Plantae</b> (plantas), <b>Animalia</b> (animais).</div></div></div>
+    <div class="flip" onclick="this.classList.toggle('vira')"><div class="flip-in">
+      <div class="flip-face flip-front"><div class="t">3 Domínios (Woese)</div><div class="h">Quais são? (toque)</div></div>
+      <div class="flip-face flip-back"><b>Bacteria</b>, <b>Archaea</b> e <b>Eukarya</b>. O Eukarya reúne os eucariontes (Protista, Fungi, Plantae, Animalia).</div></div></div>
+  </div>
+  <div class="postit">📌 <b>Dica de prova:</b> decore a frase dos níveis: "<b>R</b>ei <b>F</b>oi <b>C</b>açar <b>O</b>nça <b>F</b>eroz, <b>G</b>rande <b>E</b> Esperta" → Reino, Filo, Classe, Ordem, Família, Gênero, Espécie.</div>
+  <div class="pegadinha">⚠️ <b>Pegadinha:</b> Monera = <b>procarionte</b> (sem núcleo). Protista já é <b>eucarionte</b>. Não troque!</div>
+  <table class="mini"><tr><th>Grupo de plantas</th><th>Características</th></tr>
+    <tr><td>Briófitas</td><td>Sem vasos condutores</td></tr>
+    <tr><td>Pteridófitas</td><td>Com vasos, sem sementes</td></tr>
+    <tr><td>Gimnospermas</td><td>Sementes, sem flores nem frutos</td></tr>
+    <tr><td>Angiospermas</td><td>Flores, frutos e sementes</td></tr></table>
+
+  <!-- 2. ÁGUA -->
+  <h2 class="sec">🌊 2. Água e seres vivos</h2>
+  <div class="card"><b>Ambientes costeiros</b> (litoral): <span class="azul">praia arenosa</span>, <span class="azul">restinga</span>, <span class="azul">costão rochoso</span> e <span class="azul">manguezal</span> (+ recifes e dunas).</div>
+  <div class="grid">
+    <div class="flip" onclick="this.classList.toggle('vira')"><div class="flip-in">
+      <div class="flip-face flip-front"><div class="t">Praia arenosa</div><div class="h">(toque)</div></div>
+      <div class="flip-face flip-back">Alta salinidade; areia pobre em nutrientes; vegetação rasteira. Caranguejo maria-farinha e tartarugas.</div></div></div>
+    <div class="flip" onclick="this.classList.toggle('vira')"><div class="flip-in">
+      <div class="flip-face flip-front"><div class="t">Costão rochoso</div><div class="h">3 zonas? (toque)</div></div>
+      <div class="flip-face flip-back"><b>Inferior</b> (sempre submersa), <b>intermediária</b> (maré, ondas fortes), <b>superior</b> (quase nunca submersa).</div></div></div>
+    <div class="flip" onclick="this.classList.toggle('vira')"><div class="flip-in">
+      <div class="flip-face flip-front"><div class="t">Manguezal</div><div class="h">(toque)</div></div>
+      <div class="flip-face flip-back">Estuário; água <b>salobra</b>; solo lodoso, rico em nutrientes, <b>pobre em oxigênio</b>. Plantas com <b>caules-escora</b> e <b>pneumatóforos</b>. É um berçário.</div></div></div>
+    <div class="flip" onclick="this.classList.toggle('vira')"><div class="flip-in">
+      <div class="flip-face flip-front"><div class="t">Zonas marinhas</div><div class="h">(toque)</div></div>
+      <div class="flip-face flip-back"><b>Pelágica</b> = mar aberto (luz até 200 m). <b>Bentônica</b> = fundo (sem luz abaixo de 200 m).</div></div></div>
+  </div>
+  <table class="mini"><tr><th>Grupo</th><th>Como se locomove</th><th>Exemplo</th></tr>
+    <tr><td>Plâncton</td><td>Passivo (boia, não vence correntes)</td><td>Fitoplâncton, zooplâncton</td></tr>
+    <tr><td>Nécton</td><td>Nada ativamente</td><td>Peixes, golfinhos</td></tr>
+    <tr><td>Bentos</td><td>Fixo ou rastejando no fundo</td><td>Estrela-do-mar</td></tr></table>
+  <div class="pegadinha">⚠️ <b>Pegadinha:</b> água <b>salobra</b> é do <b>manguezal</b> (mistura doce + salgada). A praia tem água salgada!</div>
+
+  <!-- 3. SOLO -->
+  <h2 class="sec">🪱 3. O solo e os seres vivos</h2>
+  <div class="card">O solo <b>guarda nutrientes</b> e <b>filtra a água da chuva</b> (que abastece o <span class="azul">lençol freático</span> e os <span class="azul">aquíferos</span>).</div>
+  <div class="card">A maioria dos seres do solo são <b>microrganismos</b> (bactérias, fungos), vistos só ao <b>microscópio</b>. Eles fazem a <b>decomposição</b> da matéria orgânica. Também vivem no solo: minhocas, formigas, aranhas, cogumelos e as plantas (pelas raízes).</div>
+  <div class="postit">📌 <b>Dica de prova:</b> o solo tem <b>micro</b> e <b>macro</b>-organismos. Essa biodiversidade mantém e <b>renova</b> o solo.</div>
+
+  <!-- 4. PLANTAS E SOLO -->
+  <h2 class="sec">🌱 4. As plantas e o solo</h2>
+  <div class="card">As raízes tiram água e nutrientes, mas também <b>protegem o solo</b>: seguram as partículas (contra a <span class="azul">erosão</span>) e aumentam a <b>porosidade</b> (entra água e ar). É uma <b>troca</b> boa para os dois.</div>
+  <div class="grid">
+    <div class="flip" onclick="this.classList.toggle('vira')"><div class="flip-in">
+      <div class="flip-face flip-front"><div class="t">Fixadoras de nitrogênio</div><div class="h">(toque)</div></div>
+      <div class="flip-face flip-back">Bactérias nas raízes das <b>leguminosas</b> (feijão, soja) que pegam o gás <b>nitrogênio</b> do ar. Nos nódulos = <b>rizóbios</b>.</div></div></div>
+    <div class="flip" onclick="this.classList.toggle('vira')"><div class="flip-in">
+      <div class="flip-face flip-front"><div class="t">Nitrificantes</div><div class="h">(toque)</div></div>
+      <div class="flip-face flip-back">Bactérias que transformam a <b>amônia</b> em <b>nitrato</b>, outro nutriente que a planta aproveita.</div></div></div>
+  </div>
+
+  <!-- 5. INVERTEBRADOS -->
+  <h2 class="sec">🐚 5. Invertebrados mais simples</h2>
+  <div class="card">Todo animal: célula <b>eucariótica</b>, <b>pluricelular</b>, <b>heterótrofo</b> e com <b>movimento</b> em ao menos uma fase da vida.</div>
+  <div class="card"><b>Vertebrados</b> têm crânio e coluna vertebral (peixes, anfíbios, répteis, aves, mamíferos). <b>Invertebrados</b> não têm — e são a <b>maioria</b> (mais de <span class="azul">95%</span> das espécies). Maior grupo: <b>artrópodes</b>.</div>
+  <table class="mini"><tr><th>Grupo</th><th>Lembrete</th></tr>
+    <tr><td>Poríferos (esponjas)</td><td>Aquáticos, com poros; sem órgãos/tecidos verdadeiros; fixos; filtram água</td></tr>
+    <tr><td>Cnidários (água-viva, coral)</td><td>Têm <b>cnidócitos</b> (urticantes); formas medusa e pólipo</td></tr>
+    <tr><td>Platelmintos (tênia)</td><td>Vermes <b>achatados</b>; simetria bilateral</td></tr>
+    <tr><td>Nematódeos (lombriga)</td><td>Vermes <b>cilíndricos</b>; muitos parasitas</td></tr></table>
+  <div class="pegadinha">⚠️ <b>Pegadinha:</b> platelminto = <b>achatado</b>; nematódeo = <b>cilíndrico</b>. A lombriga é nematódeo!</div>
+  <div class="postit">📌 <b>Dica de prova:</b> "invertebrado" e "vertebrado" são termos <b>informais</b> — não são um grupo oficial da classificação.</div>
+
+  <!-- GLOSSÁRIO -->
+  <h2 class="sec">📖 Glossário rápido</h2>
+  <dl class="glossario">
+    <dt>Autótrofo</dt><dd>Ser que produz o próprio alimento (ex.: plantas, por fotossíntese).</dd>
+    <dt>Heterótrofo</dt><dd>Ser que não produz o próprio alimento (ex.: animais, fungos).</dd>
+    <dt>Procarionte</dt><dd>Célula sem núcleo (ex.: bactérias).</dd>
+    <dt>Eucarionte</dt><dd>Célula com núcleo (ex.: protistas, fungos, plantas, animais).</dd>
+    <dt>Estuário</dt><dd>Lugar onde o rio encontra o mar; ali fica o manguezal.</dd>
+    <dt>Pneumatóforos</dt><dd>Estruturas das plantas do mangue que sobem do lodo para respirar.</dd>
+    <dt>Erosão</dt><dd>Desgaste do solo causado pelo vento e pela água.</dd>
+    <dt>Cnidócitos</dt><dd>Células urticantes dos cnidários (defesa e captura de alimento).</dd>
+  </dl>
+  <div class="card" style="text-align:center">✅ Terminou o resumo? Vá para o <b>Simulado</b> valendo! 💪</div>
+</div></div>
+
+<script>
+const KEY='ciencias6_sj_resumo_v1';
+let estado={scrollMax:0,ts:null};let mem={};
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return mem[k]||null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}}
+function lsDel(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
+function carregar(){try{const s=lsGet(KEY);if(s)estado=JSON.parse(s);}catch(e){}}
+function salvar(){estado.ts=new Date().toISOString();lsSet(KEY,JSON.stringify(estado));pintarInfo();}
+function pintarInfo(){const el=document.getElementById('saveinfo');el.innerHTML='📖 Leitura registrada: <b>'+(estado.scrollMax||0)+'%</b> da página.';}
+function modalConfirm(html,onSim,txtSim,txtNao){document.getElementById('modalTxt').innerHTML=html;const ac=document.getElementById('modalAcoes');ac.innerHTML='';
+  const b1=document.createElement('button');b1.className='ghost';b1.textContent=txtNao||'Cancelar';b1.onclick=()=>document.getElementById('modalBg').classList.remove('on');
+  const b2=document.createElement('button');b2.textContent=txtSim||'Confirmar';b2.onclick=()=>{document.getElementById('modalBg').classList.remove('on');onSim&&onSim();};
+  ac.appendChild(b1);ac.appendChild(b2);document.getElementById('modalBg').classList.add('on');}
+function modalInfo(html){document.getElementById('modalTxt').innerHTML=html;const ac=document.getElementById('modalAcoes');ac.innerHTML='';
+  const b=document.createElement('button');b.textContent='Ok';b.onclick=()=>document.getElementById('modalBg').classList.remove('on');ac.appendChild(b);document.getElementById('modalBg').classList.add('on');}
+const RELOGIO=(function(){
+  const SESSAO=45*60,PAUSA=5*60,IDLE=3*60;let t={total:0,ativo:0,sessoes:[]};
+  let sessSec=0,lastAct=Date.now(),running=false,onBreak=false,idlePaused=false,tickId=null,cur=null,breakLeft=0;
+  function loadT(){try{const s=lsGet(KEY+'_tempo');if(s)t=JSON.parse(s);}catch(e){}if(!t.sessoes)t.sessoes=[];}
+  function saveT(){lsSet(KEY+'_tempo',JSON.stringify(t));}
+  function fmt(s){const m=Math.floor(s/60),ss=s%60;return m+':'+(ss<10?'0':'')+ss;}
+  function paint(){const el=document.getElementById('relogioTxt');if(el)el.textContent='⏱️ '+fmt(t.total)+' (ativo '+fmt(t.ativo)+')';}
+  function bump(){lastAct=Date.now();if(idlePaused){idlePaused=false;document.getElementById('ovPause').classList.remove('on');}}
+  function tick(){if(!running||onBreak)return;const idleFor=(Date.now()-lastAct)/1000;
+    if(idleFor>=IDLE){if(!idlePaused){idlePaused=true;document.getElementById('ovPause').classList.add('on');}return;}
+    t.total++;sessSec++;if(idleFor<20)t.ativo++;paint();if(t.total%5===0)saveT();if(sessSec>=SESSAO)startBreak();}
+  function startBreak(){onBreak=true;breakLeft=PAUSA;document.getElementById('ovBreak').classList.add('on');const c=document.getElementById('breakCont');c.textContent=fmt(breakLeft);
+    const iv=setInterval(()=>{breakLeft--;c.textContent=fmt(breakLeft>0?breakLeft:0);if(breakLeft<=0){clearInterval(iv);onBreak=false;sessSec=0;lastAct=Date.now();document.getElementById('ovBreak').classList.remove('on');}},1000);}
+  return{init(){loadT();paint();['input','click','keydown','scroll','touchstart'].forEach(ev=>document.addEventListener(ev,bump,{passive:true}));},
+    start(){running=true;cur={ini:new Date().toISOString()};lastAct=Date.now();document.getElementById('ovStart').classList.remove('on');document.getElementById('app').classList.remove('blur');if(!tickId)tickId=setInterval(tick,1000);},
+    retomar(){bump();},terminar(){if(cur){cur.fim=new Date().toISOString();t.sessoes.push(cur);cur=null;}running=false;saveT();},
+    dados(){return t;},zeraTempo(){t={total:0,ativo:0,sessoes:[]};lsDel(KEY+'_tempo');paint();}};
+})();
+function terminarAgora(){modalConfirm('<p><b>Terminar agora?</b></p><p>Sua leitura e o tempo ficam salvos.</p>',
+  ()=>{RELOGIO.terminar();modalInfo('<p>✅ Revisão encerrada. Você leu '+(estado.scrollMax||0)+'% da página.</p>');},'Sim, terminar','Continuar');}
+function registrarScroll(){
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  const p=h>0?Math.round(window.scrollY/h*100):100;
+  if(p>(estado.scrollMax||0)){estado.scrollMax=Math.min(100,p);salvar();}
+}
+function exportar(){const out={resumo:estado,tempo:RELOGIO.dados()};const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='progresso-resumo-ciencias6.json';a.click();}
+function importar(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const o=JSON.parse(r.result);if(o.resumo)estado=o.resumo;else estado=o;if(o.tempo)lsSet(KEY+'_tempo',JSON.stringify(o.tempo));salvar();modalInfo('<p>✅ Importado!</p>');}catch(e){modalInfo('<p>Arquivo inválido.</p>');}};
+  r.readAsText(f);}
+function zerar(){modalConfirm('<p><b>Zerar tudo?</b></p><p>Apaga a leitura e o tempo registrados.</p>',
+  ()=>{estado={scrollMax:0,ts:null};lsDel(KEY);RELOGIO.zeraTempo();pintarInfo();modalInfo('<p>🗑️ Zerado!</p>');},'Sim, zerar','Cancelar');}
+carregar();pintarInfo();RELOGIO.init();window.addEventListener('scroll',registrarScroll,{passive:true});
+document.getElementById('ovStart').classList.add('on');
+</script>
+</body>
+</html>
