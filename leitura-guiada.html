@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leitura Guiada — Ciências 6º ano (São José) · Vida na Terra</title>
+<style>
+  :root{
+    --bg:#05131a; --panel:#0c2130; --panel2:#0a1a26;
+    --line:#153447; --green:#2ee6c8; --green2:#0f9b86;
+    --lime:#9ef01a; --blue:#38bdf8; --txt:#e8f6f4; --muted:#8fb4bd;
+    --yellow:#ffd86b; --red:#ff6b6b; --redbg:#2a1115;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:
+      radial-gradient(900px 520px at 10% -8%, #0c3a4d55, transparent),
+      radial-gradient(820px 480px at 96% 0%, #0a4a3f66, transparent),
+      var(--bg);
+    color:var(--txt);font-family:'Segoe UI',system-ui,Arial,sans-serif;
+    font-size:18px;line-height:1.65}
+  .wrap{max-width:920px;margin:0 auto;padding:14px 16px 90px}
+
+  /* relógio fixo */
+  .relbar{position:sticky;top:0;z-index:40;margin:0 -16px 14px;
+    background:#05131aee;backdrop-filter:blur(6px);border-bottom:1px solid var(--line);
+    padding:8px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .relbar #relogioTxt{font-weight:800;color:var(--green);font-size:.95rem;letter-spacing:.3px}
+  .relbar .ref{color:var(--muted);font-size:.8rem}
+  .relbar .espaco{flex:1}
+  .btn-terminar{background:#3a1620;color:#ffd7dd;border:1px solid #6d2333;
+    border-radius:9px;padding:6px 12px;font-weight:700;font-size:.82rem;cursor:pointer}
+
+  header{position:relative;overflow:hidden;border-radius:18px;
+    background:linear-gradient(125deg,#052b33,#0a5c58 55%,#0a7d5a);
+    border:1px solid #12a58a;padding:24px 22px;margin-bottom:16px;
+    box-shadow:0 10px 30px #00151266}
+  header h1{margin:.1em 0;font-size:1.65rem;letter-spacing:.3px}
+  header p{margin:.2em 0;color:#d6fff4}
+  .chip{display:inline-block;background:#053b34;border:1px solid var(--green);
+    color:#d6fff4;font-size:.76rem;font-weight:700;padding:4px 10px;border-radius:999px;
+    text-transform:uppercase;letter-spacing:.5px}
+  .waves{position:absolute;inset:0;opacity:.20;pointer-events:none}
+
+  .progresso{position:sticky;top:44px;z-index:30;margin:0 -16px 16px;
+    background:#05131add;backdrop-filter:blur(6px);padding:10px 16px;border-bottom:1px solid var(--line)}
+  .barra{height:14px;background:#08202c;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .barra > i{display:block;height:100%;width:0;border-radius:999px;
+    background:linear-gradient(90deg,var(--green),var(--lime));transition:width .5s ease}
+  .progresso small{color:var(--muted)}
+
+  .salvar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:16px}
+  .salvar .info{color:var(--muted);font-size:.85rem;flex:1 1 200px}
+  button{font-family:inherit;cursor:pointer;border:none;border-radius:10px;
+    padding:9px 14px;font-size:.92rem;font-weight:700;color:#04231e;
+    background:linear-gradient(90deg,var(--green),#7bf0dd)}
+  button.ghost{background:#12293a;color:var(--txt);border:1px solid var(--line)}
+  button:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(.3)}
+
+  .bloco{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:20px 20px 22px;margin-bottom:16px;position:relative;box-shadow:0 6px 18px #00060f55}
+  .bloco.travado{opacity:.55}
+  .bloco.travado .conteudo{display:none}
+  .bloco h2{margin:.1em 0 .3em;font-size:1.22rem;color:#eafffb}
+  .bloco .num{display:inline-flex;align-items:center;justify-content:center;
+    width:34px;height:34px;border-radius:9px;font-weight:800;margin-right:10px;
+    background:linear-gradient(135deg,var(--green2),var(--blue));color:#02130f}
+  .lock{position:absolute;right:18px;top:18px;color:var(--muted);font-size:.85rem}
+  .texto p{margin:.55em 0}
+  .destaque{color:var(--green);font-weight:700}
+  .destaque-azul{color:var(--blue);font-weight:700}
+  .tipo{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;
+    padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:middle}
+  .tipo.conc{background:#0d2c3a;color:var(--blue);border:1px solid #1c4a63}
+  .tipo.aplic{background:#123014;color:var(--lime);border:1px solid #2c5a1a}
+
+  .pergunta{margin:16px 0 4px;font-weight:700;color:#eafffb}
+  textarea{width:100%;min-height:66px;resize:vertical;background:var(--panel2);
+    border:1px solid var(--line);border-radius:10px;color:var(--txt);
+    padding:10px 12px;font-family:inherit;font-size:.95rem;margin-top:6px}
+  textarea:focus{outline:2px solid var(--green2);border-color:var(--green2)}
+  .qbox.red textarea{border-color:var(--red);background:#22121599}
+  .avisocopia{display:none;margin-top:8px;background:#3a2f10;border:1px solid #8a7320;
+    color:var(--yellow);border-radius:10px;padding:9px 12px;font-size:.9rem}
+  .avisocopia.on{display:block}
+  .marcavermelha{display:none;margin-top:8px;background:var(--redbg);border:1px solid #6d2333;
+    color:#ff9aa6;border-radius:10px;padding:9px 12px;font-size:.9rem}
+  .marcavermelha.on{display:block}
+
+  .modelo{display:none;margin-top:10px;background:#0a2c26;border:1px solid #12715f;
+    border-radius:10px;padding:10px 13px}
+  .modelo b{color:var(--green)}
+  .checkbox-modelo{display:none;margin-top:8px;background:#0a1f2b;border:1px dashed var(--line);
+    border-radius:10px;padding:10px 13px}
+  .checkbox-modelo .cq{font-size:.9rem;color:var(--muted);margin-bottom:6px}
+  .checkbox-modelo label{display:inline-flex;gap:5px;align-items:center;background:#12293a;
+    border:1px solid var(--line);border-radius:999px;padding:4px 11px;cursor:pointer;font-size:.86rem;margin:3px 5px 3px 0}
+  .checkbox-modelo label.sim{border-color:var(--green)}
+  .checkbox-modelo label.nao{border-color:var(--yellow)}
+
+  .acoes{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .feito{color:var(--green);font-weight:700;display:none}
+  .status-bloco{display:none;font-weight:700;margin-left:4px}
+  .status-bloco.ok{color:var(--green)}
+  .status-bloco.rev{color:var(--yellow)}
+
+  .pegadinhas{background:var(--redbg);border:1px solid #5e1e26;border-radius:16px;padding:20px;margin-top:8px}
+  .pegadinhas h2{color:var(--red);margin-top:0}
+  .pegadinhas ol{margin:0;padding-left:20px}
+  .pegadinhas li{margin:8px 0}
+
+  .cobertura,.revisar-final{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
+  .cobertura table{width:100%;border-collapse:collapse;font-size:.92rem}
+  .cobertura td,.cobertura th{padding:7px 6px;border-bottom:1px solid var(--line);text-align:left}
+  .revisar-final ul{margin:.4em 0;padding-left:20px}
+  .revisar-final li{margin:6px 0;color:#ff9aa6}
+
+  .final-trancado{text-align:center;color:var(--muted);padding:26px;border:1px dashed var(--line);border-radius:16px;margin-top:8px}
+  .parabens{text-align:center;background:linear-gradient(135deg,#052b33,#0a7d5a);
+    border:1px solid var(--green);border-radius:16px;padding:24px;margin-bottom:16px;display:none}
+
+  /* overlays do relógio */
+  .overlay{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;
+    background:#030e13ee;backdrop-filter:blur(4px);padding:20px}
+  .overlay.on{display:flex}
+  .card-ov{max-width:460px;width:100%;background:var(--panel);border:1px solid var(--green2);
+    border-radius:18px;padding:28px 24px;text-align:center;box-shadow:0 20px 60px #0009}
+  .card-ov h2{margin:.2em 0}
+  .card-ov p{color:var(--muted)}
+  .bigbtn{font-size:1.15rem;padding:14px 26px;margin-top:12px}
+  #app.blur{filter:blur(7px);pointer-events:none;user-select:none}
+  .cont-grande{font-size:2.6rem;font-weight:800;color:var(--green);margin:10px 0}
+  /* modal genérico */
+  .modal-bg{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;background:#030e13d0;padding:20px}
+  .modal-bg.on{display:flex}
+  .modal-card{max-width:430px;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .modal-card p{margin-top:0}
+  .modal-acoes{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<!-- OVERLAY INICIAL -->
+<div class="overlay" id="ovStart">
+  <div class="card-ov">
+    <div style="font-size:2.6rem">⏱️🌱</div>
+    <h2>Pronto para explorar a Vida na Terra?</h2>
+    <p>Este material trava sozinho depois de <b>45 minutos</b> para você descansar 5 minutos. O tempo de estudo fica registrado para os pais verem.</p>
+    <button class="bigbtn" onclick="RELOGIO.start()">▶ Começar a estudar</button>
+  </div>
+</div>
+<!-- OVERLAY PAUSA POR INATIVIDADE -->
+<div class="overlay" id="ovPause">
+  <div class="card-ov">
+    <div style="font-size:2.4rem">😴</div>
+    <h2>Estudo pausado</h2>
+    <p>Você ficou um tempo sem mexer. Toque no botão para continuar de onde parou.</p>
+    <button class="bigbtn" onclick="RELOGIO.retomar()">▶ Continuar</button>
+  </div>
+</div>
+<!-- OVERLAY PAUSA OBRIGATÓRIA -->
+<div class="overlay" id="ovBreak">
+  <div class="card-ov">
+    <div style="font-size:2.4rem">🧘💧</div>
+    <h2>Hora da pausa!</h2>
+    <p>Você estudou 45 minutos. Levante, beba água e alongue. O material volta sozinho em:</p>
+    <div class="cont-grande" id="breakCont">5:00</div>
+    <p style="font-size:.85rem">Suas respostas estão salvas. 💾</p>
+  </div>
+</div>
+<!-- MODAL GENÉRICO -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal-card">
+    <div id="modalTxt"></div>
+    <div class="modal-acoes" id="modalAcoes"></div>
+  </div>
+</div>
+
+<div id="app" class="blur">
+<div class="wrap">
+
+  <div class="relbar">
+    <span id="relogioTxt">⏱️ 0:00 (ativo 0:00)</span>
+    <span class="ref" id="relRef"></span>
+    <span class="espaco"></span>
+    <button class="btn-terminar" onclick="terminarAgora()">⏹ Terminar agora</button>
+  </div>
+
+  <header>
+    <svg class="waves" viewBox="0 0 900 200" preserveAspectRatio="none">
+      <path d="M0 120 Q150 80 300 120 T600 120 T900 120 V200 H0 Z" fill="#bffff0"/>
+      <path d="M0 150 Q150 110 300 150 T600 150 T900 150 V200 H0 Z" fill="#7fead9"/>
+    </svg>
+    <span class="chip">🌊 Expedição BioLab · Leitura Guiada</span>
+    <h1>Ciências — 6º ano · Colégio São José</h1>
+    <p><b>Avaliação de 22/09 · Prof.ª Rejane Fernandes</b> — Classificação dos seres vivos, Água, Solo, Plantas e Invertebrados</p>
+    <p style="font-size:.92rem;color:#bffff0">Você é a <b>jovem aprendiz</b> desta expedição. Leia cada bloco, responda <b>com as suas palavras</b> e confira. O próximo bloco só acende quando você termina o anterior. 🔬</p>
+  </header>
+
+  <div class="progresso">
+    <div class="barra"><i id="fill"></i></div>
+    <small id="progtxt">Bloco 0 de 10 concluídos</small>
+  </div>
+
+  <div class="salvar">
+    <div class="info" id="saveinfo">Seu progresso é salvo sozinho neste navegador.</div>
+    <button class="ghost" onclick="exportar()">📥 Exportar progresso</button>
+    <button class="ghost" onclick="document.getElementById('imp').click()">📤 Importar</button>
+    <input id="imp" type="file" accept="application/json" style="display:none" onchange="importar(event)">
+    <button class="ghost" onclick="zerar()">🗑️ Zerar tudo</button>
+  </div>
+
+  <div id="blocos"></div>
+
+  <div id="finalTrancado" class="final-trancado">🔒 Termine os 10 blocos para liberar as <b>pegadinhas da prova</b>, a tabela de cobertura e o resumo da sua autoavaliação.</div>
+
+  <div id="parabens" class="parabens">
+    <h2>🎉 Expedição concluída, jovem aprendiz!</h2>
+    <p>Você percorreu toda a Vida na Terra: classificação, água, solo, plantas e invertebrados. Confira abaixo.</p>
+  </div>
+
+  <div id="pegadinhasBox"></div>
+  <div id="revisarBox"></div>
+  <div id="coberturaBox"></div>
+
+</div>
+</div>
+
+<script>
+/* =================== CONTEÚDO (extraído do livro Ecos Ciências 6 — SM) =================== */
+const BLOCOS = [
+{
+ t:"Classificação, espécie e nome científico", topico:"Classificação dos seres vivos",
+ texto:`<p>Existem mais de <span class="destaque">10 milhões de espécies</span> de seres vivos. Para organizar tudo isso, os cientistas criaram um sistema universal de classificação e de nomes. A área da Biologia que faz isso é a <span class="destaque">sistemática</span>. Para agrupar os seres, ela compara as <span class="destaque">semelhanças</span>: a estrutura do corpo (células, tecidos, órgãos), a composição química e o material genético.</p>
+ <p>O grupo básico é a <span class="destaque">espécie</span>. Uma <span class="destaque">espécie biológica</span> é um grupo de seres que conseguem cruzar entre si e ter filhotes <b>férteis</b> (que também podem se reproduzir). Por isso todos os cães, mesmo tão diferentes, são da mesma espécie.</p>
+ <p>O <span class="destaque-azul">nome científico</span> é igual no mundo todo. Ele é escrito em <b>latim</b>, em <i>itálico</i> ou sublinhado, com <b>duas palavras</b> (sistema binomial): a 1ª é o <b>gênero</b> (começa com letra maiúscula) e a 2ª é o <b>epíteto específico</b> (tudo minúsculo). Ex.: <i>Panthera onca</i> (onça). Esse sistema foi criado por <b>Lineu</b> (Carolus Linnaeus).</p>`,
+ q:[
+  {p:"Com as suas palavras, o que é uma espécie biológica?", tipo:"conc",
+   m:"É um grupo de seres vivos que conseguem cruzar entre si e gerar filhotes férteis (que também se reproduzem).",
+   chk:["Falei em cruzar/reproduzir entre si?","Falei que os filhotes são férteis?"]},
+  {p:"O nome científico da onça é Panthera onca. Explique qual palavra é o gênero e qual é o epíteto, e como cada uma deve ser escrita.", tipo:"aplic",
+   m:"Panthera é o gênero (começa com maiúscula) e onca é o epíteto específico (tudo minúsculo). Tudo em itálico ou sublinhado.",
+   chk:["Identifiquei o gênero (Panthera, maiúscula)?","Identifiquei o epíteto (onca, minúsculo)?","Falei em itálico ou sublinhado?"]},
+  {p:"Um colega escreveu o nome do ser humano assim: 'homo Sapiens'. Aponte os erros e escreva do jeito certo.", tipo:"aplic",
+   m:"Está trocado: o gênero deve ter maiúscula e o epíteto minúsculo. O certo é Homo sapiens (em itálico ou sublinhado).",
+   chk:["Percebi que o gênero deve ter maiúscula (Homo)?","Percebi que o epíteto deve ser minúsculo (sapiens)?"]}]
+},
+{
+ t:"Os níveis de classificação, reinos e domínios", topico:"Classificação dos seres vivos",
+ texto:`<p>Lineu organizou os seres em <span class="destaque">níveis</span>, do maior grupo para o menor: <b>Reino → Filo → Classe → Ordem → Família → Gênero → Espécie</b>. Cada nível reúne os de baixo (um reino tem vários filos; um filo, várias classes; e assim por diante) até chegar na <b>espécie</b>, que é a unidade básica.</p>
+ <p>Hoje é muito usado o sistema de <span class="destaque">cinco reinos</span>, do cientista <b>Whittaker (1969)</b>, baseado na organização das células e no modo de obter alimento: <b>Monera</b> (bactérias e cianobactérias — unicelulares e procariontes), <b>Protista</b> (algas e protozoários), <b>Fungi</b> (cogumelos e bolores), <b>Plantae</b> (plantas) e <b>Animalia</b> (animais).</p>
+ <p>Depois, <span class="destaque-azul">Carl Woese</span> propôs <b>três domínios</b>: <b>Bacteria</b>, <b>Archaea</b> e <b>Eukarya</b>. O Eukarya reúne os seres com célula com núcleo (Protista, Fungi, Plantae e Animalia); o antigo reino Monera se dividiu em Bacteria e Archaea.</p>`,
+ q:[
+  {p:"Escreva os níveis de classificação na ordem, do maior para o menor.", tipo:"conc",
+   m:"Reino, Filo, Classe, Ordem, Família, Gênero e Espécie.",
+   chk:["Comecei pelo Reino (o maior)?","Terminei na Espécie (a menor)?","Mantive a ordem certa no meio?"]},
+  {p:"Explique, com um exemplo (pode ser a onça), a diferença entre gênero e espécie.", tipo:"aplic",
+   m:"O gênero é um grupo maior que reúne várias espécies parecidas (ex.: Panthera). A espécie é o grupo menor, específico (ex.: Panthera onca, a onça).",
+   chk:["Disse que o gênero é maior e reúne várias espécies?","Dei um exemplo (ex.: Panthera / Panthera onca)?"]},
+  {p:"No sistema de 5 reinos há um formado por 'seres de uma célula só, sem núcleo, como as bactérias'. Que reino é esse? E a quais domínios ele deu origem?", tipo:"aplic",
+   m:"É o reino Monera. Ele deu origem a dois domínios: Bacteria e Archaea.",
+   chk:["Reconheci o reino Monera?","Citei os domínios Bacteria e Archaea?"]}]
+},
+{
+ t:"Os seis grandes grupos de seres vivos", topico:"Classificação dos seres vivos",
+ texto:`<p>Podemos observar os seres vivos em <span class="destaque">seis grandes grupos</span>: Arqueas, Bactérias, Protistas, Fungos, Plantas e Animais.</p>
+ <p><b>Arqueas</b> e <b>Bactérias</b> são unicelulares e <span class="destaque-azul">procariontes</span> (célula sem núcleo), podendo ser autótrofas ou heterótrofas. Os <b>Protistas</b> são eucariontes: incluem as <b>algas</b> (autótrofas) e os <b>protozoários</b> (heterótrofos, alguns parasitas). Os <b>Fungos</b> (eucariontes e heterótrofos) incluem bolores, cogumelos e leveduras.</p>
+ <p>As <b>Plantas</b> (eucariontes e autótrofas) se dividem em <b>briófitas</b> (sem vasos condutores), <b>pteridófitas</b> (com vasos, mas sem sementes), <b>gimnospermas</b> (sementes, sem flores nem frutos) e <b>angiospermas</b> (flores, frutos e sementes). Os <b>Animais</b> (eucariontes e heterótrofos) incluem grupos como cordados, artrópodes, moluscos, anelídeos, cnidários, poríferos, platelmintos e equinodermos.</p>`,
+ q:[
+  {p:"Quais são os seis grandes grupos de seres vivos?", tipo:"conc",
+   m:"Arqueas, Bactérias, Protistas, Fungos, Plantas e Animais.",
+   chk:["Citei os seis grupos?","Não troquei nenhum por um nível de classificação (reino/filo)?"]},
+  {p:"Uma planta tem flores, frutos e sementes. A qual grupo de plantas ela pertence? E uma planta que não tem vasos condutores?", tipo:"aplic",
+   m:"Com flores, frutos e sementes é angiosperma. Sem vasos condutores é briófita.",
+   chk:["Angiosperma para flores/frutos/sementes?","Briófita para 'sem vasos condutores'?"]},
+  {p:"Diga se cada um é autótrofo ou heterótrofo e explique a diferença: uma alga e um cogumelo.", tipo:"aplic",
+   m:"A alga é autótrofa (produz o próprio alimento, por fotossíntese) e o cogumelo é heterótrofo (não produz, precisa obter alimento pronto).",
+   chk:["Alga = autótrofa; cogumelo = heterótrofo?","Expliquei o que é autótrofo/heterótrofo?"]}]
+},
+{
+ t:"Ambientes costeiros: praia arenosa e restinga", topico:"Água e seres vivos",
+ texto:`<p>Os <span class="destaque">ambientes costeiros</span> ficam no litoral, onde o mar encontra o continente. Os principais tipos são: <b>praias arenosas</b>, <b>restingas</b>, <b>costões rochosos</b> e <b>manguezais</b> (também entram recifes de coral e dunas).</p>
+ <p>A <span class="destaque-azul">praia arenosa</span> muda muito de temperatura e umidade (marés, ondas, vento e sol) e tem <b>alta salinidade</b>. Seu solo de areia é <b>pobre em nutrientes</b>, por isso quase não fixa plantas; a vegetação, quando existe, é rasteira. O caranguejo maria-farinha cava túneis na areia e as tartarugas marinhas põem ovos ali.</p>
+ <p>A <span class="destaque-azul">restinga</span> fica logo depois da praia, indo para o continente. Começa com plantas rasteiras e vai ficando mais densa, com arbustos, árvores e <b>epífitas</b> (bromélias e orquídeas, que vivem sobre outras plantas). Tem muitas aves, répteis, insetos e crustáceos. Sofre ameaças: expansão das cidades, poluição e queimadas.</p>`,
+ q:[
+  {p:"Quais são os quatro tipos principais de ambientes costeiros?", tipo:"conc",
+   m:"Praias arenosas, restingas, costões rochosos e manguezais.",
+   chk:["Citei os quatro tipos?","Acertei os nomes (praia, restinga, costão, manguezal)?"]},
+  {p:"Por que quase não crescem plantas grandes na areia da praia? Use as palavras 'salinidade' e 'nutrientes'.", tipo:"aplic",
+   m:"Porque a praia tem alta salinidade e a areia é pobre em nutrientes, o que dificulta a fixação e o desenvolvimento das plantas.",
+   chk:["Falei da alta salinidade?","Falei que a areia é pobre em nutrientes?"]},
+  {p:"Cite uma diferença entre a vegetação da praia arenosa e a da restinga.", tipo:"aplic",
+   m:"Na praia a vegetação é rasteira e escassa; na restinga ela é mais densa e variada, com arbustos, árvores e epífitas.",
+   chk:["Mostrei que a praia tem vegetação rasteira/escassa?","Mostrei que a restinga é mais densa/variada?"]}]
+},
+{
+ t:"Costão rochoso e manguezal", topico:"Água e seres vivos",
+ texto:`<p>O <span class="destaque">costão rochoso</span> é feito de rochas na beira do mar, batidas pelas ondas. Por causa das marés, ele tem <b>três zonas</b>: a <b>inferior</b> (sempre debaixo d'água), a <b>intermediária</b> (fica coberta e descoberta pela maré, com ondas mais fortes) e a <b>superior</b> (quase nunca fica submersa). Cada zona tem seres diferentes: na inferior, algas, anêmonas e peixes; na intermediária, algas verdes, cracas e mexilhões grudados nas rochas; na superior, liquens e bromélias.</p>
+ <p>O <span class="destaque-azul">manguezal</span> aparece nos <b>estuários</b>, onde o rio encontra o mar. A água é <b>salobra</b> (mistura de doce com salgada). O solo é lodoso, rico em nutrientes, mas <b>pobre em gás oxigênio</b>.</p>
+ <p>Por causa desse solo difícil, as plantas do mangue têm adaptações: <b>caules-escora</b> (raízes que partem do caule e ajudam a fixar a planta) e <b>pneumatóforos</b> (estruturas que sobem para fora do lodo para respirar). O manguezal é um <span class="destaque">berçário</span>: muitos peixes, caranguejos e aves se reproduzem ali.</p>`,
+ q:[
+  {p:"Quais são as três zonas do costão rochoso?", tipo:"conc",
+   m:"Zona inferior (sempre submersa), zona intermediária (coberta e descoberta pela maré) e zona superior (quase nunca submersa).",
+   chk:["Citei as três zonas?","Associei cada uma à maré (submersa / de vez em quando / quase nunca)?"]},
+  {p:"O solo do mangue é pobre em oxigênio. Explique como os pneumatóforos ajudam a planta nesse ambiente.", tipo:"aplic",
+   m:"Os pneumatóforos são estruturas que crescem para fora do lodo e ajudam a planta a respirar, já que o solo tem pouco oxigênio.",
+   chk:["Liguei os pneumatóforos à respiração?","Liguei ao solo pobre em oxigênio?"]},
+  {p:"O que é água salobra e em que ambiente costeiro ela aparece?", tipo:"aplic",
+   m:"Água salobra é a mistura de água doce (do rio) com água salgada (do mar). Aparece no manguezal (nos estuários).",
+   chk:["Expliquei que é mistura de doce com salgada?","Associei ao manguezal/estuário?"]}]
+},
+{
+ t:"Zonas marinhas: plâncton, nécton e bentos", topico:"Água e seres vivos",
+ texto:`<p>Mais longe da costa começam as <span class="destaque">zonas marinhas</span>. A <b>zona pelágica</b> é o mar aberto, onde a vida não depende do fundo; a luz do sol entra só até cerca de <b>200 metros</b>, e nessa parte iluminada vive o fitoplâncton, que faz fotossíntese. A <b>zona bentônica</b> é o fundo do mar; abaixo de 200 metros não há luz nem fotossíntese, e ela pode chegar a milhares de metros.</p>
+ <p>Os seres marinhos também são divididos pelo jeito de se locomover: o <span class="destaque-azul">plâncton</span> se desloca passivamente (não vence as correntes) — inclui o <b>fitoplâncton</b> (algas microscópicas) e o <b>zooplâncton</b> (pequenos crustáceos e larvas). O <span class="destaque-azul">nécton</span> nada ativamente (peixes e mamíferos aquáticos). O <span class="destaque-azul">bentos</span> vive no fundo, fixo ou rastejando (como a estrela-do-mar).</p>
+ <p>Os ambientes marinhos sofrem ameaças: pesca em excesso, lixo e esgoto, turismo desordenado e, principalmente, o <b>lixo plástico</b>, que os animais confundem com comida.</p>`,
+ q:[
+  {p:"Qual a diferença entre a zona pelágica e a zona bentônica?", tipo:"conc",
+   m:"A pelágica é o mar aberto (a vida não depende do fundo, luz até ~200 m); a bentônica é o fundo do mar (abaixo de 200 m, sem luz).",
+   chk:["Disse que pelágica é mar aberto?","Disse que bentônica é o fundo?"]},
+  {p:"Classifique em plâncton, nécton ou bentos: um golfinho que nada rápido; uma alga microscópica que boia; uma estrela-do-mar no fundo.", tipo:"aplic",
+   m:"Golfinho = nécton (nada ativamente); alga microscópica = plâncton (boia, não vence a correnteza); estrela-do-mar = bentos (vive no fundo).",
+   chk:["Golfinho = nécton?","Alga microscópica = plâncton?","Estrela-do-mar = bentos?"]},
+  {p:"Explique por que o lixo plástico é perigoso para os animais marinhos.", tipo:"aplic",
+   m:"Porque os animais confundem o plástico com comida e o engolem, o que pode entupir e machucar seus órgãos.",
+   chk:["Falei que confundem plástico com comida?","Falei que faz mal quando engolem?"]}]
+},
+{
+ t:"O solo e os seres vivos", topico:"O solo e os seres vivos",
+ texto:`<p>O <span class="destaque">solo</span> é cheio de vida e faz coisas importantes: guarda nutrientes e absorve e filtra a <b>água da chuva</b>, que abastece o <b>lençol freático</b> e os <b>aquíferos</b> (as águas guardadas no subsolo).</p>
+ <p>A maioria dos seres do solo são <span class="destaque-azul">microrganismos</span> (bactérias, fungos e animais minúsculos), tão pequenos que só se veem no <b>microscópio</b>. Eles fazem trabalhos essenciais, como a <b>decomposição da matéria orgânica</b>.</p>
+ <p>Além deles, vivem no solo animais como formigas, minhocas, aranhas e caramujos, fungos maiores (cogumelos) e as plantas, que se fixam pelas raízes. Ou seja, o solo abriga <b>micro e macro-organismos</b>: essa biodiversidade mantém e renova o solo.</p>`,
+ q:[
+  {p:"Cite dois trabalhos importantes que o solo faz para o ambiente.", tipo:"conc",
+   m:"Guarda nutrientes e absorve/filtra a água da chuva (abastecendo o lençol freático e os aquíferos).",
+   chk:["Citei guardar nutrientes?","Citei absorver/filtrar a água da chuva?"]},
+  {p:"Por que a maioria dos seres vivos do solo não é vista a olho nu? Como podemos vê-los?", tipo:"aplic",
+   m:"Porque são microrganismos, muito pequenos. Só conseguimos vê-los com o microscópio.",
+   chk:["Falei que são microrganismos/muito pequenos?","Falei do microscópio?"]},
+  {p:"Dê um exemplo de microrganismo e um de macro-organismo que vivem no solo.", tipo:"aplic",
+   m:"Microrganismo: bactéria ou fungo minúsculo. Macro-organismo: minhoca, formiga, aranha, caramujo ou cogumelo.",
+   chk:["Dei um exemplo de microrganismo?","Dei um exemplo de macro-organismo?"]}]
+},
+{
+ t:"As plantas e o solo", topico:"As plantas e o solo",
+ texto:`<p>As plantas terrestres se prendem no solo pelas <span class="destaque">raízes</span> e tiram dele a água e os nutrientes minerais. Mas elas também cuidam do solo — é uma <b>troca boa para os dois lados</b>. As raízes seguram as partículas do solo e o protegem contra a <span class="destaque-azul">erosão</span> (o desgaste causado pelo vento e pela água) e deixam o solo mais poroso, ajudando a água a entrar e o ar a circular.</p>
+ <p>Algumas plantas, as <b>leguminosas</b> (como o feijão e a soja, cujos frutos são vagens), têm bactérias vivendo nas suas raízes. Essas bactérias são <span class="destaque">fixadoras de nitrogênio</span>: pegam o gás nitrogênio do ar e o transformam em substâncias que a planta usa, como a amônia. Nos nódulos das raízes, elas são chamadas de <b>rizóbios</b>.</p>
+ <p>Existem também bactérias fixadoras que vivem soltas no solo. A amônia pode ser transformada em <b>nitrato</b> por outras bactérias, as <b>nitrificantes</b>. Assim, o nitrogênio vai passando para as plantas.</p>`,
+ q:[
+  {p:"O que é erosão e como as raízes das plantas ajudam a evitá-la?", tipo:"conc",
+   m:"Erosão é o desgaste do solo causado pelo vento e pela água. As raízes seguram as partículas do solo, protegendo-o da erosão.",
+   chk:["Expliquei que erosão é desgaste (vento/água)?","Falei que as raízes seguram/agregam o solo?"]},
+  {p:"Por que plantar feijão ou soja pode deixar o solo mais rico em nitrogênio? Cite as bactérias envolvidas.", tipo:"aplic",
+   m:"Porque essas leguminosas têm nas raízes bactérias fixadoras de nitrogênio (rizóbios), que transformam o gás nitrogênio do ar em substâncias aproveitáveis.",
+   chk:["Liguei feijão/soja a bactérias fixadoras de nitrogênio?","Citei rizóbios (ou fixadoras)?"]},
+  {p:"Explique com as suas palavras por que dizemos que planta e solo têm uma 'troca' (relação benéfica).", tipo:"aplic",
+   m:"Porque a planta tira água e nutrientes do solo, mas também ajuda o solo: protege contra a erosão, aumenta a porosidade e enriquece o solo. Os dois se beneficiam.",
+   chk:["Mostrei o que a planta ganha (água/nutrientes)?","Mostrei o que o solo ganha (proteção/porosidade/nitrogênio)?"]}]
+},
+{
+ t:"Os animais: características e a divisão vertebrados / invertebrados", topico:"Invertebrados mais simples",
+ texto:`<p>Todos os <span class="destaque">animais</span> têm em comum: células <b>eucarióticas</b> (com núcleo), são <b>pluricelulares</b> (feitos de muitas células, em geral em tecidos), são <b>heterótrofos</b> (não fabricam o próprio alimento) e apresentam <b>movimento</b> em ao menos uma fase da vida.</p>
+ <p>De um jeito simples, os animais são separados em <span class="destaque-azul">vertebrados</span> e <span class="destaque-azul">invertebrados</span>. Esse não é um agrupamento oficial da classificação, mas é muito usado. Os <b>vertebrados</b> têm <b>crânio</b> e <b>coluna vertebral</b> (vértebras); são cinco grupos: peixes, anfíbios, répteis, aves e mamíferos. Os <b>invertebrados</b> não têm crânio nem vértebras.</p>
+ <p>Os invertebrados são a grande <b>maioria</b>: mais de <span class="destaque">95% das espécies de animais</span> conhecidas! São mais de 30 grupos, e 8 são os mais estudados: poríferos, cnidários, platelmintos, nematódeos, moluscos, anelídeos, artrópodes e equinodermos. O maior grupo de todos é o dos <b>artrópodes</b>.</p>`,
+ q:[
+  {p:"Cite três características comuns a todos os animais.", tipo:"conc",
+   m:"Células eucarióticas (com núcleo), pluricelulares, heterótrofos e com movimento em ao menos uma fase da vida (bastam três).",
+   chk:["Citei três características?","Todas são realmente de animais (não inventei)?"]},
+  {p:"Qual a principal diferença entre um vertebrado e um invertebrado? Dê um exemplo de cada.", tipo:"aplic",
+   m:"O vertebrado tem crânio e coluna vertebral (ex.: um cachorro, um peixe); o invertebrado não tem (ex.: uma minhoca, um inseto).",
+   chk:["Falei da coluna vertebral/crânio como diferença?","Dei um exemplo de vertebrado e um de invertebrado?"]},
+  {p:"Verdadeiro ou falso, e explique: 'Os invertebrados são poucos, por isso são pouco estudados.'", tipo:"aplic",
+   m:"Falso. Os invertebrados são a maioria dos animais (mais de 95% das espécies conhecidas).",
+   chk:["Respondi que é falso?","Justifiquei que são a maioria (mais de 95%)?"]}]
+},
+{
+ t:"Invertebrados mais simples: poríferos, cnidários, platelmintos e nematódeos", topico:"Invertebrados mais simples",
+ texto:`<p>Os <span class="destaque">poríferos</span> são as <b>esponjas</b>, animais aquáticos (principalmente do mar). O nome vem dos <b>poros</b> do corpo. São muito simples: não têm órgãos nem tecidos verdadeiros, e os adultos ficam <b>fixos</b> (não se locomovem). Eles <b>filtram a água</b> para se alimentar.</p>
+ <p>Os <span class="destaque">cnidários</span> (águas-vivas, corais e anêmonas) são aquáticos e já têm <b>tecidos verdadeiros</b>. O nome vem dos <b>cnidócitos</b>, células que soltam substâncias urticantes (que "queimam") para se defender e capturar alimento. Aparecem em duas formas: <b>medusa</b> (que nada, como a água-viva) e <b>pólipo</b> (fixo, como o coral).</p>
+ <p>Os <span class="destaque-azul">platelmintos</span> são vermes de corpo <b>achatado</b>, com <b>simetria bilateral</b>; alguns são parasitas (como a tênia). Os <span class="destaque-azul">nematódeos</span> são vermes de corpo <b>cilíndrico</b> (redondo e alongado). Muitos são parasitas do ser humano, como a <b>lombriga</b> (causa a ascaridíase) e o <b>ancilóstomo</b> (causa a ancilostomose, o "amarelão"); seus ovos saem nas fezes.</p>`,
+ q:[
+  {p:"Por que os poríferos (esponjas) são considerados os animais mais simples?", tipo:"conc",
+   m:"Porque não têm órgãos nem tecidos verdadeiros, os adultos ficam fixos e eles só filtram a água para se alimentar.",
+   chk:["Falei que não têm órgãos/tecidos verdadeiros?","Falei que são fixos e/ou filtram água?"]},
+  {p:"O que são os cnidócitos e para que servem? A que grupo pertencem?", tipo:"aplic",
+   m:"São células urticantes (que 'queimam') usadas para defesa e para capturar alimento. Pertencem aos cnidários.",
+   chk:["Expliquei que servem para defesa/captura?","Liguei aos cnidários?"]},
+  {p:"Compare o corpo de um platelminto e de um nematódeo (formato) e cite um exemplo de nematódeo parasita.", tipo:"aplic",
+   m:"O platelminto tem corpo achatado e o nematódeo tem corpo cilíndrico. Exemplo de nematódeo parasita: a lombriga (ou o ancilóstomo).",
+   chk:["Platelminto = achatado; nematódeo = cilíndrico?","Citei a lombriga (ou ancilóstomo)?"]}]
+}
+];
+
+const PEGADINHAS = [
+ "<b>Espécie biológica</b> gera descendentes <b>férteis</b>. Se os filhotes forem estéreis (como a mula), não é a mesma espécie.",
+ "No nome científico, só o <b>gênero</b> começa com maiúscula; o epíteto é <b>todo minúsculo</b>. E sempre em <i>itálico</i> ou sublinhado.",
+ "Ordem dos níveis: <b>Reino → Filo → Classe → Ordem → Família → Gênero → Espécie</b>. A espécie é a menor; o reino é o maior.",
+ "<b>Monera</b> (bactérias) = <b>procarionte</b> (SEM núcleo). Não confunda com Protista, que é eucarionte.",
+ "Não misture: <b>5 reinos</b> (Whittaker) x <b>3 domínios</b> (Woese). O reino Monera virou dois domínios: Bacteria e Archaea.",
+ "<b>Manguezal</b> = água <b>salobra</b> (mistura), não água doce nem só salgada. E o solo do mangue é <b>pobre em oxigênio</b>.",
+ "Costão rochoso: a zona <b>inferior</b> fica sempre submersa; a <b>superior</b>, quase nunca. Não troque.",
+ "<b>Plâncton</b> NÃO vence as correntes (boia); <b>nécton</b> nada ativamente. Uma alga microscópica é plâncton, mesmo no mar aberto.",
+ "Nem todo verme é igual: <b>platelminto = achatado</b>; <b>nematódeo = cilíndrico</b>. A lombriga é nematódeo.",
+ "<b>Invertebrado</b> é a MAIORIA dos animais (mais de 95%), não a minoria. 'Sem coluna vertebral' não quer dizer 'raro'."
+];
+
+/* =================== SALVAMENTO =================== */
+const KEY='ciencias6_sj_leituraguiada_v1';
+let estado={resp:{}, chk:{}, conferido:{}, transcrita:{}, tentou:{}, ts:null};
+let mem={};
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return mem[k]||null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){mem[k]=v;}}
+function lsDel(k){try{localStorage.removeItem(k);}catch(e){delete mem[k];}}
+function carregar(){try{const s=lsGet(KEY);if(s)estado=JSON.parse(s);}catch(e){}}
+function salvar(){estado.ts=new Date().toISOString();lsSet(KEY,JSON.stringify(estado));pintarInfo();}
+function pintarInfo(){const el=document.getElementById('saveinfo');
+  if(estado.ts){const d=new Date(estado.ts);
+    el.innerHTML='💾 Último salvamento: <b>'+d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</b>';}
+  else el.textContent='Seu progresso é salvo sozinho neste navegador.';}
+
+/* =================== MODAL =================== */
+function modalConfirm(html, onSim, txtSim, txtNao){
+  document.getElementById('modalTxt').innerHTML=html;
+  const ac=document.getElementById('modalAcoes');ac.innerHTML='';
+  const b1=document.createElement('button');b1.className='ghost';b1.textContent=txtNao||'Cancelar';
+  b1.onclick=()=>{document.getElementById('modalBg').classList.remove('on');};
+  const b2=document.createElement('button');b2.textContent=txtSim||'Confirmar';
+  b2.onclick=()=>{document.getElementById('modalBg').classList.remove('on');onSim&&onSim();};
+  ac.appendChild(b1);ac.appendChild(b2);
+  document.getElementById('modalBg').classList.add('on');
+}
+function modalInfo(html){
+  document.getElementById('modalTxt').innerHTML=html;
+  const ac=document.getElementById('modalAcoes');ac.innerHTML='';
+  const b=document.createElement('button');b.textContent='Ok';
+  b.onclick=()=>{document.getElementById('modalBg').classList.remove('on');};
+  ac.appendChild(b);document.getElementById('modalBg').classList.add('on');
+}
+
+/* =================== RELÓGIO =================== */
+const RELOGIO=(function(){
+  const SESSAO=45*60, PAUSA=5*60, IDLE=3*60;
+  let t={total:0,ativo:0,sessoes:[]};
+  let sessSec=0,lastAct=Date.now(),running=false,onBreak=false,idlePaused=false,tickId=null,cur=null,breakLeft=0;
+  function loadT(){try{const s=lsGet(KEY+'_tempo');if(s)t=JSON.parse(s);}catch(e){}if(!t.sessoes)t.sessoes=[];}
+  function saveT(){lsSet(KEY+'_tempo',JSON.stringify(t));}
+  function fmt(s){const m=Math.floor(s/60),ss=s%60;return m+':'+(ss<10?'0':'')+ss;}
+  function paint(){const el=document.getElementById('relogioTxt');if(el)el.textContent='⏱️ '+fmt(t.total)+' (ativo '+fmt(t.ativo)+')';}
+  function bump(){lastAct=Date.now();if(idlePaused){idlePaused=false;document.getElementById('ovPause').classList.remove('on');}}
+  function tick(){
+    if(!running||onBreak)return;
+    const idleFor=(Date.now()-lastAct)/1000;
+    if(idleFor>=IDLE){if(!idlePaused){idlePaused=true;document.getElementById('ovPause').classList.add('on');}return;}
+    t.total++;sessSec++;if(idleFor<20)t.ativo++;
+    paint();if(t.total%5===0)saveT();
+    if(sessSec>=SESSAO)startBreak();
+  }
+  function startBreak(){
+    onBreak=true;breakLeft=PAUSA;document.getElementById('ovBreak').classList.add('on');
+    const c=document.getElementById('breakCont');c.textContent=fmt(breakLeft);
+    const iv=setInterval(()=>{breakLeft--;c.textContent=fmt(breakLeft>0?breakLeft:0);
+      if(breakLeft<=0){clearInterval(iv);onBreak=false;sessSec=0;lastAct=Date.now();document.getElementById('ovBreak').classList.remove('on');}},1000);
+  }
+  return {
+    init(){loadT();paint();const r=document.getElementById('relRef');if(r)r.textContent='referência: cerca de 1h de leitura';
+      ['input','click','keydown','scroll','touchstart'].forEach(ev=>document.addEventListener(ev,bump,{passive:true}));},
+    start(){running=true;cur={ini:new Date().toISOString()};lastAct=Date.now();
+      document.getElementById('ovStart').classList.remove('on');document.getElementById('app').classList.remove('blur');
+      if(!tickId)tickId=setInterval(tick,1000);},
+    retomar(){bump();},
+    terminar(){if(cur){cur.fim=new Date().toISOString();t.sessoes.push(cur);cur=null;}running=false;saveT();},
+    dados(){return t;},
+    zeraTempo(){t={total:0,ativo:0,sessoes:[]};lsDel(KEY+'_tempo');paint();}
+  };
+})();
+function terminarAgora(){
+  modalConfirm('<p><b>Terminar agora?</b></p><p>Suas respostas ficam salvas e o tempo de estudo é registrado. Você pode voltar depois para continuar.</p>',
+    ()=>{RELOGIO.terminar();modalInfo('<p>✅ Sessão encerrada. Bom descanso, jovem aprendiz!</p>');},'Sim, terminar','Continuar estudando');
+}
+
+/* =================== ANTICÓPIA =================== */
+function normaliza(s){return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
+  .replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim().split(' ').filter(Boolean);}
+function maiorSequenciaComum(a,b){ // retorna array de palavras da maior sequência consecutiva comum
+  let best=[];const m=a.length,n=b.length;const dp=Array(n+1).fill(0);
+  for(let i=1;i<=m;i++){let prev=0;for(let j=1;j<=n;j++){const tmp=dp[j];
+    if(a[i-1]===b[j-1]){dp[j]=prev+1;if(dp[j]>best.length)best=a.slice(i-dp[j],i);}else dp[j]=0;prev=tmp;}}
+  return best;
+}
+function contemSequencia(hay,seq){ if(!seq.length)return false;
+  for(let i=0;i+seq.length<=hay.length;i++){let ok=true;for(let k=0;k<seq.length;k++){if(hay[i+k]!==seq[k]){ok=false;break;}}if(ok)return true;}return false;}
+function ehTranscricao(resp, textoBloco, enunciado){
+  const a=normaliza(resp), b=normaliza(textoBloco), q=normaliza(enunciado);
+  if(a.length<4) return false;
+  let seq=maiorSequenciaComum(a,b);
+  // descontar citação do enunciado: se a maior sequência também está no enunciado, ignora
+  if(seq.length>=4 && contemSequencia(q,seq)){
+    // tenta a 2ª maior removendo essa: aproximação simples -> considera não-cópia
+    return false;
+  }
+  if(seq.length>=8) return true;
+  if(seq.length>=5 && (seq.length/a.length)>0.6) return true;
+  return false;
+}
+
+/* =================== RENDER =================== */
+function textoPlano(html){const d=document.createElement('div');d.innerHTML=html;return d.textContent||'';}
+function render(){
+  const cont=document.getElementById('blocos');cont.innerHTML='';
+  BLOCOS.forEach((b,i)=>{
+    const conferido=!!estado.conferido[i];
+    const liberado = i===0 || !!estado.conferido[i-1];
+    const div=document.createElement('div');
+    div.className='bloco'+(liberado?'':' travado');div.id='bloco'+i;
+    let qhtml='';
+    b.q.forEach((q,j)=>{
+      const val=(estado.resp[i]&&estado.resp[i][j])?estado.resp[i][j]:'';
+      const red=!!(estado.transcrita[i]&&estado.transcrita[i][j]);
+      let chkHtml='';
+      q.chk.forEach((c,k)=>{
+        const cv=(estado.chk[i]&&estado.chk[i][j]&&estado.chk[i][j][k])?estado.chk[i][j][k]:'';
+        chkHtml+=`<div class="cq">• ${c}
+          <label class="sim"><input type="radio" name="chk${i}_${j}_${k}" ${cv==='sim'?'checked':''} onchange="setChk(${i},${j},${k},'sim')"> Sim</label>
+          <label class="nao"><input type="radio" name="chk${i}_${j}_${k}" ${cv==='nao'?'checked':''} onchange="setChk(${i},${j},${k},'nao')"> Ainda não</label></div>`;
+      });
+      qhtml+=`<div class="qbox${red?' red':''}" id="qbox${i}_${j}">
+        <div class="pergunta">${j+1}. ${q.p}<span class="tipo ${q.tipo}">${q.tipo==='conc'?'conceito':'aplicação'}</span></div>
+        <textarea data-b="${i}" data-q="${j}" oninput="onResp(${i},${j},this.value)" ${conferido?'disabled':''} placeholder="Escreva com as suas palavras...">${val.replace(/</g,'&lt;')}</textarea>
+        <div class="avisocopia" id="aviso${i}_${j}">✍️ Boa parte da sua resposta está igual ao texto. Tente reescrever com as <b>suas palavras</b>, como se explicasse para um amigo, sem olhar o texto. Pode ficar mais curtinho — o que vale é ser SEU.</div>
+        <div class="marcavermelha" id="marca${i}_${j}">🔴 Esta resposta ficou muito parecida com o texto. Reescreva com as suas palavras quando puder — a marca some sozinha.</div>
+        <div class="modelo" id="mod${i}_${j}"><b>Resposta modelo:</b> ${q.m}</div>
+        <div class="checkbox-modelo" id="ckbox${i}_${j}"><div style="color:var(--muted);font-size:.85rem;margin-bottom:4px">A minha resposta disse que...</div>${chkHtml}</div>
+      </div>`;
+    });
+    div.innerHTML=`
+      ${liberado?'':'<div class="lock">🔒 bloco trancado</div>'}
+      <h2><span class="num">${i+1}</span>${b.t}</h2>
+      <div class="conteudo">
+        <div class="texto">${b.texto}</div>
+        ${qhtml}
+        <div class="acoes">
+          <button id="btn${i}" onclick="conferir(${i})" ${conferido?'disabled':''}>✅ Conferir respostas</button>
+          <span class="feito" id="feito${i}">Bloco conferido ✓</span>
+          <span class="status-bloco" id="status${i}"></span>
+        </div>
+      </div>`;
+    cont.appendChild(div);
+    if(conferido) mostrarConferido(i);
+  });
+  atualizarBotoes();atualizarProgresso();pintarInfo();checarFinal();
+}
+function onResp(i,j,v){
+  estado.resp[i]=estado.resp[i]||{};estado.resp[i][j]=v;
+  // reescrever apaga a marca vermelha
+  if(estado.transcrita[i]&&estado.transcrita[i][j]){
+    if(!ehTranscricao(v,textoPlano(BLOCOS[i].texto),BLOCOS[i].q[j].p)){
+      estado.transcrita[i][j]=false;
+      const qb=document.getElementById('qbox'+i+'_'+j);if(qb)qb.classList.remove('red');
+      const mk=document.getElementById('marca'+i+'_'+j);if(mk)mk.classList.remove('on');
+    }
+  }
+  atualizarBotoes();salvar();
+}
+function setChk(i,j,k,v){
+  estado.chk[i]=estado.chk[i]||{};estado.chk[i][j]=estado.chk[i][j]||{};estado.chk[i][j][k]=v;
+  salvar();atualizarStatus(i);checarFinal();
+}
+function todasPreenchidas(i){
+  const b=BLOCOS[i];
+  for(let j=0;j<b.q.length;j++){const v=(estado.resp[i]&&estado.resp[i][j])?estado.resp[i][j].trim():'';if(v.length<3)return false;}
+  return true;
+}
+function atualizarBotoes(){
+  BLOCOS.forEach((b,i)=>{const btn=document.getElementById('btn'+i);
+    if(btn&&!estado.conferido[i])btn.disabled=!todasPreenchidas(i);});
+}
+function conferir(i){
+  if(!todasPreenchidas(i))return;
+  // ANTICÓPIA em dois degraus
+  let travou=false;
+  BLOCOS[i].q.forEach((q,j)=>{
+    const resp=(estado.resp[i]&&estado.resp[i][j])||'';
+    const aviso=document.getElementById('aviso'+i+'_'+j);
+    if(aviso)aviso.classList.remove('on');
+    const copia=ehTranscricao(resp,textoPlano(BLOCOS[i].texto),q.p);
+    estado.tentou[i]=estado.tentou[i]||{};
+    if(copia){
+      const jaTentou=!!(estado.tentou[i]&&estado.tentou[i][j]);
+      if(!jaTentou){
+        // 1ª detecção: não aceita, pede reescrita
+        estado.tentou[i][j]=resp;
+        if(aviso)aviso.classList.add('on');
+        travou=true;
+      }else{
+        // 2ª tentativa: aceita mas marca vermelha
+        estado.transcrita[i]=estado.transcrita[i]||{};estado.transcrita[i][j]=true;
+      }
+    }
+  });
+  salvar();
+  if(travou){
+    modalInfo('<p>✍️ Quase lá! Uma ou mais respostas ficaram muito parecidas com o texto. Reescreva com as suas palavras e clique em <b>Conferir</b> de novo.</p>');
+    return;
+  }
+  estado.conferido[i]=true;salvar();render();
+  const prox=document.getElementById('bloco'+(i+1));
+  if(prox)prox.scrollIntoView({behavior:'smooth',block:'start'});
+  else document.getElementById('finalTrancado').scrollIntoView({behavior:'smooth'});
+}
+function mostrarConferido(i){
+  BLOCOS[i].q.forEach((q,j)=>{
+    const m=document.getElementById('mod'+i+'_'+j);if(m)m.style.display='block';
+    const c=document.getElementById('ckbox'+i+'_'+j);if(c)c.style.display='block';
+    if(estado.transcrita[i]&&estado.transcrita[i][j]){
+      const qb=document.getElementById('qbox'+i+'_'+j);if(qb)qb.classList.add('red');
+      const mk=document.getElementById('marca'+i+'_'+j);if(mk)mk.classList.add('on');
+    }
+  });
+  const f=document.getElementById('feito'+i);if(f)f.style.display='inline';
+  const btn=document.getElementById('btn'+i);if(btn){btn.disabled=true;btn.textContent='✅ Conferido';}
+  atualizarStatus(i);
+}
+function atualizarStatus(i){
+  if(!estado.conferido[i])return;
+  const st=document.getElementById('status'+i);if(!st)return;
+  let temNao=false, red=false;
+  BLOCOS[i].q.forEach((q,j)=>{
+    if(estado.transcrita[i]&&estado.transcrita[i][j])red=true;
+    q.chk.forEach((c,k)=>{const v=estado.chk[i]&&estado.chk[i][j]&&estado.chk[i][j][k];if(v==='nao')temNao=true;});
+  });
+  st.style.display='inline';
+  if(temNao||red){st.className='status-bloco rev';st.textContent='🔁 revisar este bloco';}
+  else{st.className='status-bloco ok';st.textContent='✅ tudo certo!';}
+}
+function atualizarProgresso(){
+  const n=Object.keys(estado.conferido).filter(k=>estado.conferido[k]).length;
+  document.getElementById('fill').style.width=(n/BLOCOS.length*100)+'%';
+  document.getElementById('progtxt').textContent='Bloco '+n+' de '+BLOCOS.length+' concluídos';
+}
+function checarFinal(){
+  const todos=BLOCOS.every((b,i)=>estado.conferido[i]);
+  document.getElementById('finalTrancado').style.display=todos?'none':'block';
+  document.getElementById('parabens').style.display=todos?'block':'none';
+  document.getElementById('pegadinhasBox').innerHTML= todos?pegadinhasHTML():'';
+  document.getElementById('coberturaBox').innerHTML= todos?coberturaHTML():'';
+  document.getElementById('revisarBox').innerHTML= todos?revisarHTML():'';
+}
+function pegadinhasHTML(){
+  const li=PEGADINHAS.map(p=>'<li>'+p+'</li>').join('');
+  return `<div class="pegadinhas"><h2>⚠️ 10 pegadinhas que mais derrubam na prova</h2><ol>${li}</ol></div>`;
+}
+function coberturaHTML(){
+  const map={};BLOCOS.forEach((b,i)=>{map[b.topico]=map[b.topico]||[];map[b.topico].push(i+1);});
+  let linhas=Object.keys(map).map(t=>`<tr><td>${t}</td><td>Bloco(s) ${map[t].join(', ')}</td></tr>`).join('');
+  return `<div class="cobertura"><h2>🗺️ Cobertura — o que cada tópico da prova tem aqui</h2>
+    <table><tr><th>Tópico da prova</th><th>Onde estudar</th></tr>${linhas}</table></div>`;
+}
+function revisarHTML(){
+  let itens=[];
+  BLOCOS.forEach((b,i)=>{
+    let red=false,nao=false;
+    b.q.forEach((q,j)=>{
+      if(estado.transcrita[i]&&estado.transcrita[i][j])red=true;
+      q.chk.forEach((c,k)=>{const v=estado.chk[i]&&estado.chk[i][j]&&estado.chk[i][j][k];if(v==='nao')nao=true;});
+    });
+    if(red||nao) itens.push('Bloco '+(i+1)+' — '+b.t+(red?' (resposta copiada 🔴)':'')+(nao?' (marcou "ainda não")':''));
+  });
+  if(!itens.length) return `<div class="revisar-final"><h2>🌟 Autoavaliação</h2><p style="color:var(--green)">Você marcou tudo como certo e não copiou o texto. Ótimo! Pode seguir para o Quiz.</p></div>`;
+  return `<div class="revisar-final"><h2>📌 Para revisar antes da prova</h2><ul>${itens.map(x=>'<li>'+x+'</li>').join('')}</ul></div>`;
+}
+
+/* =================== EXPORTAR / IMPORTAR / ZERAR =================== */
+function exportar(){
+  const out={leitura:estado, tempo:RELOGIO.dados()};
+  const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='progresso-leitura-guiada-ciencias6.json';a.click();
+}
+function importar(ev){
+  const f=ev.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const o=JSON.parse(r.result);
+    if(o.leitura){estado=o.leitura;}else{estado=o;}
+    if(o.tempo){lsSet(KEY+'_tempo',JSON.stringify(o.tempo));}
+    salvar();render();modalInfo('<p>✅ Progresso importado!</p>');}
+    catch(e){modalInfo('<p>Arquivo inválido.</p>');}};
+  r.readAsText(f);
+}
+function zerar(){
+  modalConfirm('<p><b>Zerar tudo?</b></p><p>Isso apaga todas as respostas e o tempo de estudo, para outra criança usar do zero.</p>',
+    ()=>{estado={resp:{},chk:{},conferido:{},transcrita:{},tentou:{},ts:null};lsDel(KEY);RELOGIO.zeraTempo();render();modalInfo('<p>🗑️ Tudo zerado!</p>');},'Sim, zerar','Cancelar');
+}
+
+/* =================== START =================== */
+carregar();render();RELOGIO.init();
+document.getElementById('ovStart').classList.add('on');
+</script>
+</body>
+</html>
