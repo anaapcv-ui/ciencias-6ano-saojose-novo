@@ -140,34 +140,6 @@
 </head>
 <body>
 
-<!-- OVERLAY INICIAL -->
-<div class="overlay" id="ovStart">
-  <div class="card-ov">
-    <div style="font-size:2.6rem">⏱️🌱</div>
-    <h2>Pronto para explorar a Vida na Terra?</h2>
-    <p>Este material trava sozinho depois de <b>45 minutos</b> para você descansar 5 minutos. O tempo de estudo fica registrado para os pais verem.</p>
-    <button class="bigbtn" onclick="RELOGIO.start()">▶ Começar a estudar</button>
-  </div>
-</div>
-<!-- OVERLAY PAUSA POR INATIVIDADE -->
-<div class="overlay" id="ovPause">
-  <div class="card-ov">
-    <div style="font-size:2.4rem">😴</div>
-    <h2>Estudo pausado</h2>
-    <p>Você ficou um tempo sem mexer. Toque no botão para continuar de onde parou.</p>
-    <button class="bigbtn" onclick="RELOGIO.retomar()">▶ Continuar</button>
-  </div>
-</div>
-<!-- OVERLAY PAUSA OBRIGATÓRIA -->
-<div class="overlay" id="ovBreak">
-  <div class="card-ov">
-    <div style="font-size:2.4rem">🧘💧</div>
-    <h2>Hora da pausa!</h2>
-    <p>Você estudou 45 minutos. Levante, beba água e alongue. O material volta sozinho em:</p>
-    <div class="cont-grande" id="breakCont">5:00</div>
-    <p style="font-size:.85rem">Suas respostas estão salvas. 💾</p>
-  </div>
-</div>
 <!-- MODAL GENÉRICO -->
 <div class="modal-bg" id="modalBg">
   <div class="modal-card">
@@ -176,15 +148,8 @@
   </div>
 </div>
 
-<div id="app" class="blur">
+<div id="app">
 <div class="wrap">
-
-  <div class="relbar">
-    <span id="relogioTxt">⏱️ 0:00 (ativo 0:00)</span>
-    <span class="ref" id="relRef"></span>
-    <span class="espaco"></span>
-    <button class="btn-terminar" onclick="terminarAgora()">⏹ Terminar agora</button>
-  </div>
 
   <header>
     <svg class="waves" viewBox="0 0 900 200" preserveAspectRatio="none">
@@ -437,47 +402,6 @@ function modalInfo(html){
   ac.appendChild(b);document.getElementById('modalBg').classList.add('on');
 }
 
-/* =================== RELÓGIO =================== */
-const RELOGIO=(function(){
-  const SESSAO=45*60, PAUSA=5*60, IDLE=3*60;
-  let t={total:0,ativo:0,sessoes:[]};
-  let sessSec=0,lastAct=Date.now(),running=false,onBreak=false,idlePaused=false,tickId=null,cur=null,breakLeft=0;
-  function loadT(){try{const s=lsGet(KEY+'_tempo');if(s)t=JSON.parse(s);}catch(e){}if(!t.sessoes)t.sessoes=[];}
-  function saveT(){lsSet(KEY+'_tempo',JSON.stringify(t));}
-  function fmt(s){const m=Math.floor(s/60),ss=s%60;return m+':'+(ss<10?'0':'')+ss;}
-  function paint(){const el=document.getElementById('relogioTxt');if(el)el.textContent='⏱️ '+fmt(t.total)+' (ativo '+fmt(t.ativo)+')';}
-  function bump(){lastAct=Date.now();if(idlePaused){idlePaused=false;document.getElementById('ovPause').classList.remove('on');}}
-  function tick(){
-    if(!running||onBreak)return;
-    const idleFor=(Date.now()-lastAct)/1000;
-    if(idleFor>=IDLE){if(!idlePaused){idlePaused=true;document.getElementById('ovPause').classList.add('on');}return;}
-    t.total++;sessSec++;if(idleFor<20)t.ativo++;
-    paint();if(t.total%5===0)saveT();
-    if(sessSec>=SESSAO)startBreak();
-  }
-  function startBreak(){
-    onBreak=true;breakLeft=PAUSA;document.getElementById('ovBreak').classList.add('on');
-    const c=document.getElementById('breakCont');c.textContent=fmt(breakLeft);
-    const iv=setInterval(()=>{breakLeft--;c.textContent=fmt(breakLeft>0?breakLeft:0);
-      if(breakLeft<=0){clearInterval(iv);onBreak=false;sessSec=0;lastAct=Date.now();document.getElementById('ovBreak').classList.remove('on');}},1000);
-  }
-  return {
-    init(){loadT();paint();const r=document.getElementById('relRef');if(r)r.textContent='referência: cerca de 1h de leitura';
-      ['input','click','keydown','scroll','touchstart'].forEach(ev=>document.addEventListener(ev,bump,{passive:true}));},
-    start(){running=true;cur={ini:new Date().toISOString()};lastAct=Date.now();
-      document.getElementById('ovStart').classList.remove('on');document.getElementById('app').classList.remove('blur');
-      if(!tickId)tickId=setInterval(tick,1000);},
-    retomar(){bump();},
-    terminar(){if(cur){cur.fim=new Date().toISOString();t.sessoes.push(cur);cur=null;}running=false;saveT();},
-    dados(){return t;},
-    zeraTempo(){t={total:0,ativo:0,sessoes:[]};lsDel(KEY+'_tempo');paint();}
-  };
-})();
-function terminarAgora(){
-  modalConfirm('<p><b>Terminar agora?</b></p><p>Suas respostas ficam salvas e o tempo de estudo é registrado. Você pode voltar depois para continuar.</p>',
-    ()=>{RELOGIO.terminar();modalInfo('<p>✅ Sessão encerrada. Bom descanso, jovem aprendiz!</p>');},'Sim, terminar','Continuar estudando');
-}
-
 /* =================== ANTICÓPIA =================== */
 function normaliza(s){return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
   .replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim().split(' ').filter(Boolean);}
@@ -671,7 +595,7 @@ function revisarHTML(){
 
 /* =================== EXPORTAR / IMPORTAR / ZERAR =================== */
 function exportar(){
-  const out={leitura:estado, tempo:RELOGIO.dados()};
+  const out={leitura:estado};
   const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
   a.download='progresso-leitura-guiada-ciencias6.json';a.click();
@@ -680,19 +604,17 @@ function importar(ev){
   const f=ev.target.files[0];if(!f)return;const r=new FileReader();
   r.onload=()=>{try{const o=JSON.parse(r.result);
     if(o.leitura){estado=o.leitura;}else{estado=o;}
-    if(o.tempo){lsSet(KEY+'_tempo',JSON.stringify(o.tempo));}
     salvar();render();modalInfo('<p>✅ Progresso importado!</p>');}
     catch(e){modalInfo('<p>Arquivo inválido.</p>');}};
   r.readAsText(f);
 }
 function zerar(){
-  modalConfirm('<p><b>Zerar tudo?</b></p><p>Isso apaga todas as respostas e o tempo de estudo, para outra criança usar do zero.</p>',
-    ()=>{estado={resp:{},chk:{},conferido:{},transcrita:{},tentou:{},ts:null};lsDel(KEY);RELOGIO.zeraTempo();render();modalInfo('<p>🗑️ Tudo zerado!</p>');},'Sim, zerar','Cancelar');
+  modalConfirm('<p><b>Zerar tudo?</b></p><p>Isso apaga todas as respostas, para outra criança usar do zero.</p>',
+    ()=>{estado={resp:{},chk:{},conferido:{},transcrita:{},tentou:{},ts:null};lsDel(KEY);render();modalInfo('<p>🗑️ Tudo zerado!</p>');},'Sim, zerar','Cancelar');
 }
 
 /* =================== START =================== */
-carregar();render();RELOGIO.init();
-document.getElementById('ovStart').classList.add('on');
+carregar();render();
 </script>
 </body>
 </html>
