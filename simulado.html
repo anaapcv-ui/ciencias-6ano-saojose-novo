@@ -63,18 +63,9 @@
 </style>
 </head>
 <body>
-<div class="overlay" id="ovStart"><div class="card-ov"><div style="font-size:2.6rem">⏱️📝</div>
-  <h2>Simulado valendo!</h2><p>São 27 questões, no estilo da prova. Trava sozinho após <b>45 minutos</b> para você descansar 5 min. O tempo fica registrado para os pais.</p>
-  <button class="bigbtn vermelho" onclick="RELOGIO.start()">▶ Começar o simulado</button></div></div>
-<div class="overlay" id="ovPause"><div class="card-ov"><div style="font-size:2.4rem">😴</div>
-  <h2>Simulado pausado</h2><p>Você ficou um tempo parada. Toque para continuar.</p><button class="bigbtn" onclick="RELOGIO.retomar()">▶ Continuar</button></div></div>
-<div class="overlay" id="ovBreak"><div class="card-ov"><div style="font-size:2.4rem">🧘💧</div>
-  <h2>Hora da pausa!</h2><p>45 minutos. Levante e beba água. Volta em:</p><div class="cont-grande" id="breakCont">5:00</div></div></div>
 <div class="modal-bg" id="modalBg"><div class="modal-card"><div id="modalTxt"></div><div class="modal-acoes" id="modalAcoes"></div></div></div>
 
-<div id="app" class="blur"><div class="wrap">
-  <div class="relbar"><span id="relogioTxt">⏱️ 0:00 (ativo 0:00)</span><span class="espaco"></span>
-    <button class="btn-terminar" onclick="terminarAgora()">⏹ Terminar agora</button></div>
+<div id="app"><div class="wrap">
   <header><span class="chip">📝 Simulado · valendo</span>
     <h1>Simulado — Ciências 6º ano</h1>
     <p>Colégio São José · Rede Divina Providência</p></header>
@@ -263,27 +254,6 @@ function modalConfirm(html,onSim,txtSim,txtNao){document.getElementById('modalTx
   ac.appendChild(b1);ac.appendChild(b2);document.getElementById('modalBg').classList.add('on');}
 function modalInfo(html){document.getElementById('modalTxt').innerHTML=html;const ac=document.getElementById('modalAcoes');ac.innerHTML='';
   const b=document.createElement('button');b.textContent='Ok';b.onclick=()=>document.getElementById('modalBg').classList.remove('on');ac.appendChild(b);document.getElementById('modalBg').classList.add('on');}
-const RELOGIO=(function(){
-  const SESSAO=45*60,PAUSA=5*60,IDLE=3*60;let t={total:0,ativo:0,sessoes:[]};
-  let sessSec=0,lastAct=Date.now(),running=false,onBreak=false,idlePaused=false,tickId=null,cur=null,breakLeft=0;
-  function loadT(){try{const s=lsGet(KEY+'_tempo');if(s)t=JSON.parse(s);}catch(e){}if(!t.sessoes)t.sessoes=[];}
-  function saveT(){lsSet(KEY+'_tempo',JSON.stringify(t));}
-  function fmt(s){const m=Math.floor(s/60),ss=s%60;return m+':'+(ss<10?'0':'')+ss;}
-  function paint(){const el=document.getElementById('relogioTxt');if(el)el.textContent='⏱️ '+fmt(t.total)+' (ativo '+fmt(t.ativo)+')';}
-  function bump(){lastAct=Date.now();if(idlePaused){idlePaused=false;document.getElementById('ovPause').classList.remove('on');}}
-  function tick(){if(!running||onBreak)return;const idleFor=(Date.now()-lastAct)/1000;
-    if(idleFor>=IDLE){if(!idlePaused){idlePaused=true;document.getElementById('ovPause').classList.add('on');}return;}
-    t.total++;sessSec++;if(idleFor<20)t.ativo++;paint();if(t.total%5===0)saveT();if(sessSec>=SESSAO)startBreak();}
-  function startBreak(){onBreak=true;breakLeft=PAUSA;document.getElementById('ovBreak').classList.add('on');const c=document.getElementById('breakCont');c.textContent=fmt(breakLeft);
-    const iv=setInterval(()=>{breakLeft--;c.textContent=fmt(breakLeft>0?breakLeft:0);if(breakLeft<=0){clearInterval(iv);onBreak=false;sessSec=0;lastAct=Date.now();document.getElementById('ovBreak').classList.remove('on');}},1000);}
-  return{init(){loadT();paint();['input','click','keydown','scroll','touchstart'].forEach(ev=>document.addEventListener(ev,bump,{passive:true}));},
-    start(){running=true;cur={ini:new Date().toISOString()};lastAct=Date.now();document.getElementById('ovStart').classList.remove('on');document.getElementById('app').classList.remove('blur');if(!tickId)tickId=setInterval(tick,1000);},
-    retomar(){bump();},terminar(){if(cur){cur.fim=new Date().toISOString();t.sessoes.push(cur);cur=null;}running=false;saveT();},
-    dados(){return t;},zeraTempo(){t={total:0,ativo:0,sessoes:[]};lsDel(KEY+'_tempo');paint();}};
-})();
-function terminarAgora(){modalConfirm('<p><b>Terminar agora?</b></p><p>Isso encerra a tentativa e gera o código com os acertos do que você respondeu (mesmo com questões em branco).</p>',
-  ()=>{RELOGIO.terminar();finalizar(true);},'Sim, terminar','Continuar');}
-
 function embaralha(n,seed){let idx=[...Array(n).keys()];let s=seed;
   for(let i=n-1;i>0;i--){s=(s*9301+49297)%233280;const j=Math.floor(s/233280*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}return idx;}
 function ordemDe(i){if(!estado.ordem[i]){estado.ordem[i]=embaralha(QUESTOES[i].alts.length,(i+1)*6151);}return estado.ordem[i];}
@@ -337,14 +307,14 @@ function revelarGabarito(){QUESTOES.forEach((q,i)=>{const ord=ordemDe(i);
     el.classList.add('cinza');
     if(a.ok){el.classList.remove('cinza');el.classList.add('correta');if(exp){exp.className='exp on ok';exp.innerHTML='✔ Correta — '+a.exp;}}
     else{if(estado.resp[i]===oi)el.classList.add('errada-sel');if(exp){exp.className='exp on no';exp.innerHTML='✗ '+a.exp;}}});});}
-function exportar(){const out={simulado:estado,tempo:RELOGIO.dados()};const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
+function exportar(){const out={simulado:estado};const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='progresso-simulado-ciencias6.json';a.click();}
 function importar(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();
-  r.onload=()=>{try{const o=JSON.parse(r.result);if(o.simulado)estado=o.simulado;else estado=o;if(o.tempo)lsSet(KEY+'_tempo',JSON.stringify(o.tempo));salvar();render();modalInfo('<p>✅ Importado!</p>');}catch(e){modalInfo('<p>Arquivo inválido.</p>');}};
+  r.onload=()=>{try{const o=JSON.parse(r.result);if(o.simulado)estado=o.simulado;else estado=o;salvar();render();modalInfo('<p>✅ Importado!</p>');}catch(e){modalInfo('<p>Arquivo inválido.</p>');}};
   r.readAsText(f);}
-function zerar(){modalConfirm('<p><b>Zerar tudo?</b></p><p>Apaga respostas, código e tempo, para outra criança usar.</p>',
-  ()=>{estado={resp:{},ordem:{},finalizado:false,codigo:'',acertos:0,desbloq:false,ts:null};lsDel(KEY);RELOGIO.zeraTempo();document.getElementById('codigoBox').classList.remove('on');render();modalInfo('<p>🗑️ Zerado!</p>');},'Sim, zerar','Cancelar');}
-carregar();render();RELOGIO.init();document.getElementById('ovStart').classList.add('on');
+function zerar(){modalConfirm('<p><b>Zerar tudo?</b></p><p>Apaga respostas e código, para outra criança usar.</p>',
+  ()=>{estado={resp:{},ordem:{},finalizado:false,codigo:'',acertos:0,desbloq:false,ts:null};lsDel(KEY);document.getElementById('codigoBox').classList.remove('on');render();modalInfo('<p>🗑️ Zerado!</p>');},'Sim, zerar','Cancelar');}
+carregar();render();
 </script>
 </body>
 </html>
