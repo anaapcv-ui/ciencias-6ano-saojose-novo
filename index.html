@@ -75,7 +75,6 @@
       <li><b>Resumo</b> — use as cartas e dicas para fechar exatamente o que o quiz mostrou que faltou.</li>
       <li><b>Simulado</b> — enfrente as 27 questões como se fosse a prova de verdade.</li>
     </ol>
-    <p style="color:var(--muted);font-size:.9rem">⏱️ Cada material trava sozinho depois de <b>45 minutos</b> para um descanso de 5 minutos. Se ficar 3 minutos sem mexer, ele pausa sozinho.</p>
   </div>
 
   <div class="dica">
@@ -84,7 +83,7 @@
 
   <div class="relatorio">
     <h2 style="margin-top:0">📊 Relatório para os Pais</h2>
-    <p style="color:var(--muted);font-size:.92rem">Digite um dos códigos do seu filho (MED-…, SIM-…) ou o código fixo da família <b>PAIS-77</b> para ver o resumo de tempo e desempenho.</p>
+    <p style="color:var(--muted);font-size:.92rem">Digite um dos códigos do seu filho (MED-…, SIM-…) ou o código fixo da família <b>PAIS-77</b> para ver o resumo de desempenho.</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
       <input id="codePais" placeholder="PAIS-77"><button onclick="abrirRelatorio()">🔓 Ver relatório</button>
     </div>
@@ -113,10 +112,10 @@ function abrirRelatorio(){
   montarRelatorio();
 }
 function montarRelatorio(){
-  const lg=getJSON(KEYS.leitura), lgT=getJSON(KEYS.leitura+'_tempo');
-  const q=getJSON(KEYS.quiz), qT=getJSON(KEYS.quiz+'_tempo');
-  const rz=getJSON(KEYS.resumo), rzT=getJSON(KEYS.resumo+'_tempo');
-  const sm=getJSON(KEYS.simulado), smT=getJSON(KEYS.simulado+'_tempo');
+  const lg=getJSON(KEYS.leitura);
+  const q=getJSON(KEYS.quiz);
+  const rz=getJSON(KEYS.resumo);
+  const sm=getJSON(KEYS.simulado);
 
   // leitura: contar vermelhas e "não"
   let vermelhas=0, naos=0, blocosConf=0;
@@ -127,23 +126,17 @@ function montarRelatorio(){
   }
   const linhas=[];
   linhas.push(['📖 Leitura Guiada',
-    lgT?fmt(lgT.total):'—', lgT?fmt(lgT.ativo):'—',
     blocosConf+'/10 blocos', vermelhas+' 🔴 · '+naos+' "ainda não"']);
   linhas.push(['🎯 Quiz',
-    qT?fmt(qT.total):'—', qT?fmt(qT.ativo):'—',
     q&&q.finalizado?(q.acertos+'/15 acertos'):'não finalizado', q&&q.codigo?q.codigo:'—']);
   linhas.push(['🗺️ Resumo',
-    rzT?fmt(rzT.total):'—', rzT?fmt(rzT.ativo):'—',
     (rz&&rz.scrollMax!=null?rz.scrollMax:0)+'% lido', '—']);
   linhas.push(['📝 Simulado',
-    smT?fmt(smT.total):'—', smT?fmt(smT.ativo):'—',
     sm&&sm.finalizado?(sm.acertos+'/27 acertos'):'não finalizado', sm&&sm.codigo?sm.codigo:'—']);
 
-  let corpo=linhas.map(r=>`<tr><td class="m">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`).join('');
-  const refLg = lgT? '<p style="color:var(--muted);font-size:.85rem;margin-top:8px">⏱️ Tempo ativo da Leitura: <b>'+fmt(lgT.ativo)+'</b> — referência: cerca de 1h.</p>':'';
+  let corpo=linhas.map(r=>`<tr><td class="m">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
   document.getElementById('relCont').innerHTML=
-    `<table class="rel"><tr><th>Material</th><th>Tempo total</th><th>Tempo ativo</th><th>Desempenho</th><th>Detalhe</th></tr>${corpo}</table>
-     ${refLg}
+    `<table class="rel"><tr><th>Material</th><th>Desempenho</th><th>Detalhe</th></tr>${corpo}</table>
      <p style="color:var(--muted);font-size:.85rem;margin-top:10px">🔴 = respostas que ficaram muito parecidas com o texto (para reescrever com as próprias palavras). "ainda não" = pontos da autoavaliação que a criança marcou como não dominados.</p>`;
   document.getElementById('relCont').classList.add('on');
 }
